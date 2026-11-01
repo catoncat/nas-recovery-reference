@@ -1,0 +1,57 @@
+{
+  "version": "0.1.0",
+  "validated_at": "2026-11-01T14:41:06.675862+08:00",
+  "environment": {
+    "os": "macOS 27.0.1 arm64",
+    "python": "3.12.15",
+    "numpy": "2.3.5",
+    "cryptography": "50.0.2"
+  },
+  "scope": "Exported reference code with separately obtained pinned upstream dependency; temporary synthetic fixtures only",
+  "suites": {
+    "manifest": 9,
+    "baseline": 7,
+    "v2": 18,
+    "v3": 24,
+    "publication-eligibility": 6,
+    "generic-adapter": 4
+  },
+  "test_invocations": 68,
+  "all_passed": true,
+  "count_note": "v2/v3 inherit baseline tests; invocations are not distinct independent cases.",
+  "covered": [
+    "copy/decrypt/readback/resume with synthetic keys",
+    "real fork exits at journal boundaries",
+    "partial and wrong orphan preservation",
+    "source drift, wrong key, output collision, device identity and capacity refusal",
+    "pause/drain, torn journal tail, log write failures",
+    "directory replacement, symlink and cache checks",
+    "single approved non-date-specific root and explicit marker",
+    "publication qualification without publishing"
+  ],
+  "not_validated": [
+    "live customer recovery",
+    "real NAS deployment of v2/v3",
+    "real hardware power-loss durability",
+    "Linux USB probe on another customer device",
+    "Windows/macOS network-source client",
+    "production file-sharing permissions or HTTPS",
+    "all ransomware variants or all session keys"
+  ],
+  "extracted_zip_retest_passed": true,
+  "extracted_zip_test_invocations": 68,
+  "markdown_relative_links_checked": true,
+  "python_syntax_checked": true,
+  "package_boundary_tests": {
+    "invocations": 5,
+    "all_passed": true,
+    "covered": [
+      "strict allowlist",
+      "exclusive archive creation",
+      "extra private file refusal",
+      "symlink/missing file refusal",
+      "known secret and case-path pattern refusal",
+      "export provenance drift refusal"
+    ]
+  }
+}

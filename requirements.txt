@@ -1,0 +1,3 @@
+# Tested reference environment: CPython 3.12.15. Install on a clean analysis host.
+numpy==2.3.5
+cryptography==50.0.2

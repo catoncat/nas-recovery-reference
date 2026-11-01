@@ -1,0 +1,22 @@
+{
+  "url": "https://github.com/soimy/c3rb3r-rescue.git",
+  "commit": "ef18b9980cccfe8326b16557c6b48933a80e0c99",
+  "license_observation": "NO LICENSE FILE - local review only; do not redistribute as licensed code",
+  "files": {
+    "skills/dsm-ransomware-rescue/scripts/capture_process_memory.py": "784d5acd591b496e39425190ae18bfb419a00bc5918ccb974501c4ce96ae3623",
+    "skills/dsm-ransomware-rescue/scripts/capture_qemu_ram.py": "e65fe6a55764bfd1c9518595a092e46217930f20850e007a211cf4bb884e3fc6",
+    "skills/dsm-ransomware-rescue/scripts/carve_memory.py": "8d6e8a45205150add2d3e17d4f3e19566258dc595f29928198bc9c394063a89d",
+    "skills/dsm-ransomware-rescue/scripts/decrypt_copy.py": "9a0a9fde2f889c6646165e1bc0e85ba04c2b513595d550915c95887138ba01c4",
+    "skills/dsm-ransomware-rescue/scripts/file_layout.py": "c8c053cc01ba7664acc2f5c86e99777a722235a96f05a8f50d57cf994814db2c",
+    "skills/dsm-ransomware-rescue/scripts/inspect_footer.py": "cf52e93852e2256dc2b87129a5b182808ad54a514798d2a13ca2aa23d7418651",
+    "skills/dsm-ransomware-rescue/scripts/inspect_lime.py": "728036419bb908a9ddc2094cf40ce0acb1d5a847a3c5ec90448a8c7fd677ad74",
+    "skills/dsm-ransomware-rescue/scripts/inventory.py": "eeff6dca2070bdde778322b95991d922136e6372b725cacc0f238f8f39a1392d",
+    "skills/dsm-ransomware-rescue/scripts/recover_process_key.py": "0620dcadba490717863a5de0f25c542e6574d08327f685708c437e6823eae8f8",
+    "skills/dsm-ransomware-rescue/scripts/recover_ram_keys.py": "080bae2c4fcd2b81c4247a5f74ed0eda12465d25fcd119c1ea783457787004c7",
+    "skills/dsm-ransomware-rescue/scripts/scan_indicators.py": "a76e369eb8b9baad39fd11a9732d49ba92fba95cfdef680b3cf7adc344b5a673",
+    "skills/dsm-ransomware-rescue/scripts/seal_evidence.py": "9b33edc5ad409d071a97a3542142414619e06b6ba5f5180ff64b58cf3df72356",
+    "skills/dsm-ransomware-rescue/scripts/unpack_upx.py": "187659880a1672959a8cfb7c2bd7e128f4dd2f2be801418e81bdeede33de5c71",
+    "skills/dsm-ransomware-rescue/scripts/verify_backup.py": "edb1d9d7be56523e01afa2844a7aeb5b5b4c83c6f55302c7b2d1085f70ada32b",
+    "skills/dsm-ransomware-rescue/scripts/verify_roots.py": "38041f90495141c5c1c181a3b7bd13b4654c9a5b40062ebf69b1b20805195894"
+  }
+}

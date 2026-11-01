@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "example_only": true,
+  "incident_id": "CUSTOMER-INCIDENT-ID",
+  "observed_at_with_timezone": "REPLACE_WITH_ACTUAL_TIME",
+  "owner": "CUSTOMER_TECHNICAL_OWNER",
+  "phase": "evidence-review",
+  "execution_authorized": false,
+  "process_identity": {
+    "pid": null,
+    "start_ticks": null,
+    "exe_sha256": null,
+    "all_threads_stopped": null,
+    "evidence_reference": "PRIVATE_REFERENCE_ONLY"
+  },
+  "key_material_reference": "PRIVATE_SECRET_STORE_REFERENCE_ONLY_DO_NOT_PASTE_KEY",
+  "approved_scope_reference": "PRIVATE_BUNDLE_REFERENCE_ONLY",
+  "source_storage_identity_reference": "PRIVATE_DEVICE_INVENTORY_REFERENCE",
+  "target_storage_identity_reference": "PRIVATE_DEVICE_INVENTORY_REFERENCE",
+  "completion": {
+    "manifest_sha256": null,
+    "durable_completed_files": 0,
+    "durable_completed_bytes": 0,
+    "failed_files": null,
+    "unsupported_files": null,
+    "scope_inventory_complete": false,
+    "manifest_recovery_complete": false,
+    "business_accepted": false,
+    "published": false
+  },
+  "next_action": "REPLACE_WITH_REVIEWED_ACTION",
+  "blockers": [],
+  "evidence_retention_owner": "CUSTOMER_OWNER",
+  "original_ciphertext_retained": true
+}

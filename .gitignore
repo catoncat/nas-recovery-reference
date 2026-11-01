@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+vendor/
+private/
+*.bin
+*.dump
+*.enc
+completion.jsonl
+status.json
