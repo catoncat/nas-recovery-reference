@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "template_only": true,
+  "incident_id": null,
+  "owner": null,
+  "updated_at_with_timezone": null,
+  "phase": "unknown",
+  "private_entry_reference": null,
+  "reviewed_git_commit": null,
+  "dependency_lock_sha256": null,
+  "authorization": {
+    "state": "unknown",
+    "operator_instruction_reference": null,
+    "allowed_host_identity_reference": null,
+    "allowed_actions": [],
+    "allowed_source_scope_reference": null,
+    "allowed_target_scope_reference": null,
+    "stop_conditions": [],
+    "note": "A field value is not authorization; verify the actual operator instruction."
+  },
+  "connection": {
+    "state": "unknown",
+    "host_identity_evidence_reference": null,
+    "verified_host_key_reference": null,
+    "existing_private_ssh_config_reference": null,
+    "network_isolation_evidence_reference": null,
+    "credential_store_reference_only": null,
+    "observed_at": null
+  },
+  "volatile_evidence": {
+    "state": "unknown",
+    "process_identity_and_thread_evidence_reference": null,
+    "process_memory_still_needed": "unknown",
+    "ram_queue_still_needed": "unknown",
+    "capture_format_and_coverage_reference": null,
+    "session_material_verification_reference": null,
+    "independent_encrypted_backup_and_restore_check_reference": null,
+    "do_not_paste_keys_or_memory": true
+  },
+  "storage": {
+    "state": "unknown",
+    "source_device_and_pool_evidence_reference": null,
+    "target_identity_independence_and_free_space_reference": null,
+    "path_nonoverlap_evidence_reference": null,
+    "observed_at": null
+  },
+  "jobs": [],
+  "paused_jobs_do_not_auto_resume": [],
+  "completed_inventory_scope_references_do_not_rescan": [],
+  "completed_validation_references_do_not_repeat": [],
+  "monitor_index_reference": null,
+  "gates": [
+    {
+      "gate_id": "G1",
+      "proposed_action": null,
+      "result": "blocked",
+      "reason": "Template has no incident-specific evidence or authorization.",
+      "evidence_references": [],
+      "checked_at": null
+    }
+  ],
+  "completion": {
+    "inventory_complete": "unknown",
+    "manifest_recovery_complete": "unknown",
+    "validation_level": "unknown",
+    "business_accepted": "unknown",
+    "published": "unknown",
+    "environment_clean": "unknown"
+  },
+  "unknowns": [
+    "All real incident facts must be established; template values are not pass results."
+  ],
+  "next_allowed_action": "Local documentation/code review only until relevant incident evidence and authorization are established."
+}

@@ -8,3 +8,11 @@ private/
 *.enc
 completion.jsonl
 status.json
+AGENT-CASE.md
+agent-case-state.json
+evidence/
+state/
+logs/
+.env
+.env.*
+*.key
