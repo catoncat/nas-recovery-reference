@@ -1,0 +1,95 @@
+{
+  "collected_at": "2026-11-01T19:23:08.652190+08:00",
+  "source": "inplace-progress.jsonl (private; sanitized aggregate only)",
+  "source_snapshot_sha256": "c59062902616ba02c2f53d398b34ccf6af3471bc4d6278cf6d2b87ea25e468c9",
+  "snapshot": {
+    "observed_at": "2026-11-01T19:18:30.069815+08:00",
+    "files": 52708,
+    "bytes": 475120387060,
+    "errors": 0,
+    "conflicts": 0,
+    "magic_mismatch_unresolved": 17
+  },
+  "before_pipeline": {
+    "start": "2026-11-01T18:42:04.164241+08:00",
+    "end": "2026-11-01T18:52:40.162992+08:00",
+    "seconds": 635.9987504482269,
+    "files": 9103,
+    "logical_bytes": 83143482031,
+    "files_per_second": 14.312921202415199,
+    "decimal_MB_per_second": 130.72900217556048
+  },
+  "after_pipeline": {
+    "start": "2026-11-01T19:07:40.515111+08:00",
+    "end": "2026-11-01T19:18:30.069815+08:00",
+    "seconds": 649.5547034740448,
+    "files": 18270,
+    "logical_bytes": 212715182208,
+    "files_per_second": 28.126961289458265,
+    "decimal_MB_per_second": 327.4784726680064
+  },
+  "limitations": [
+    "Sequential workloads differ; not a controlled same-file benchmark.",
+    "Logical committed bytes, not physical disk writes.",
+    "No hardware power-loss test; no claim of full recovery.",
+    "Zero errors/conflicts does not include skipped or unresolved signature mismatches."
+  ],
+  "pipeline_receipt": {
+    "source": "002b-pipeline.receipt.md",
+    "written_at": "2026-11-01T19:26:14+08:00",
+    "source_sha256": "8e4761554abeab5f6039386e4b86a01117cf9329e4dc95035229321fc62dc903",
+    "nas_synthetic": {
+      "at": "2026-11-01T18:56:36+08:00",
+      "sha_matches": 325,
+      "files": 325,
+      "worker_commit_overlap": true,
+      "interrupted_resume_and_stop_drain": true
+    },
+    "before_after_600_second_windows": {
+      "before_start": "2026-11-01T18:46:38+08:00",
+      "before_end": "2026-11-01T18:56:38+08:00",
+      "after_start": "2026-11-01T18:56:54+08:00",
+      "after_end": "2026-11-01T19:06:54+08:00",
+      "volumes": [
+        {
+          "label": "A",
+          "before_MBps": 4.19,
+          "after_MBps": 23.66,
+          "before_files_per_second": 4.99,
+          "after_files_per_second": 12.28
+        },
+        {
+          "label": "B",
+          "before_MBps": 109.26,
+          "after_MBps": 154.47,
+          "before_files_per_second": 9.24,
+          "after_files_per_second": 15.16
+        }
+      ],
+      "combined_rounded": {
+        "before_MBps": 113.45,
+        "after_MBps": 178.13,
+        "before_files_per_second": 14.23,
+        "after_files_per_second": 27.44
+      },
+      "note": "Summed rounded per-volume values from receipt; different sequential workloads, not a controlled replay."
+    },
+    "final_snapshot": {
+      "at": "2026-11-01T19:25:06+08:00",
+      "files": 55994,
+      "bytes": 527093091392,
+      "errors": 0,
+      "conflicts": 0,
+      "magic_mismatch_unresolved": 0,
+      "historical_unique_mismatch_paths": 405,
+      "resolved_unique_mismatch_paths": 405,
+      "pending_sync_files": 294
+    },
+    "additional_source_tool_synthetic": {
+      "owner_variants_sha_matches": 9,
+      "owner_unicode_negative_cases_rejected": 9,
+      "apple_metadata_sha_matches": 6
+    },
+    "scope": "Existing private receipt read locally; this task did not connect to NAS or deploy code."
+  }
+}

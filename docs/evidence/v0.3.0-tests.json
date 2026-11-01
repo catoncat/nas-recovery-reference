@@ -1,0 +1,28 @@
+{
+  "started_at": "2026-11-01T19:26:32.653165+08:00",
+  "finished_at": "2026-11-01T19:27:22.220386+08:00",
+  "command": "python -B scripts/selftest.py",
+  "exit_code": 0,
+  "suite_test_invocations": [
+    9,
+    7,
+    18,
+    24,
+    6,
+    4,
+    13
+  ],
+  "total_test_invocations": 81,
+  "all_passed": true,
+  "environment": {
+    "os": "macOS-27.0.1-arm64-arm-64bit",
+    "python": "3.12.15"
+  },
+  "inplace_ficlone": "emulated copy on temporary synthetic files",
+  "inplace_syncfs": "emulated no-op; no host-wide sync",
+  "live_incident_access": false,
+  "notes": [
+    "Inherited baseline/v2/v3 invocations include repeated tests.",
+    "No real FICLONE, hardware power-loss test or deployment of this export."
+  ]
+}

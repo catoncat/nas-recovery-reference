@@ -27,7 +27,8 @@
 | 进程身份、冻结、内存/密钥保全 | `RESCUE-GUIDE.md` 2、4 节，G2/G3 | `KEY-RECOVERY.md`：识别、保全、固定上游采集/离线提取，未知样本不套地址 |
 | 离线格式适配与小样本验证 | `CODE.md` 1–2 节，`THIRD-PARTY-NOTICES.md`，G4 | `check-dependencies.py` 与 `selftest.py` 只核对依赖/合成测试，不证明现场可恢复 |
 | 定向清单与目标核对 | `CODE.md` 3 节，G1/G5 | `recover.py observe-target/plan`；前者Linux USB探测，后者会读指定目录元数据并写私有bundle；不是纯本地零访问动作 |
-| 新批次恢复 | `CODE.md` 4 节、`ARCHITECTURE.md`，G4/G5/G6 | `recover.py run` 默认检查，`--execute`才写新输出；key由本事件受控stdin提供 |
+| Btrfs 原位恢复与撤回 | `IN-PLACE.md`、本事件明确范围与任务身份 | `inplace-recover.py` / `inplace-revert.py`；显式 marker、stdin key、footer 归档；不能克隆时转复制路线 |
+| 新批次复制恢复 | `CODE.md` 4 节、`ARCHITECTURE.md`，G4/G5/G6 | `recover.py run` 默认检查，`--execute`才写新输出；key由本事件受控stdin提供 |
 | 观察/暂停/接续 | 私有批次/监控索引、`CODE.md` 5 节，G6 | `recovery-status.py --state-dir`读取已知状态，见`FIRST-SESSION.md`第3节 |
 | 发布已完成目录 | `RESCUE-GUIDE.md` 7 节、`CODE.md` 6 节，G7 | `publication-eligibility.py` 仅资格观察，不设置共享/账号/HTTPS |
 | 维护、升级、清理和最终结案 | G8，事件负责人具体方案 | 无自动入口；先保全与验收，再单独批准破坏性变更 |

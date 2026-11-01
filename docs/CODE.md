@@ -4,6 +4,8 @@
 
 首次接入和当前任务判断见 [FIRST-SESSION.md](FIRST-SESSION.md)；没有有效key时先走 [KEY-RECOVERY.md](KEY-RECOVERY.md)，不必为保存内存先安装全部密码学依赖。
 
+Btrfs/FICLONE 原位路线优先按 [IN-PLACE.md](IN-PLACE.md) 执行；本页 plan/run 是不能克隆时的复制路线。两者日志不能混用，交付均包含未加密原件。
+
 ## 1. 干净分析机上的依赖
 
 本包没有捆绑密码学核心。先按 [分发说明](../THIRD-PARTY-NOTICES.md) 核对使用范围，自行取得固定上游版本。例如在干净分析机、全新目录中：

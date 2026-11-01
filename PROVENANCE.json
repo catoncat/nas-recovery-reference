@@ -1,14 +1,20 @@
 {
-  "version": "0.2.0",
+  "version": "0.3.0",
   "transformations": [
     "Incident names replaced by synthetic example names; marker replaced by synthetic a1b2c3d4",
     "CLI marker and original preflight plan/source-base are explicit inputs",
     "External crypto dependency verified before import; no third-party code redistributed",
-    "Only allowlisted path helpers extracted; no ciphertext-delete implementation exported",
+    "Only allowlisted path helpers extracted into recovery-paths.py; that helper contains no ciphertext-delete implementation",
     "Generic single-root adapter provided separately; original source unchanged",
     "Public module names and examples generalized to files/directories; no business/date source fallback",
     "Manifest version 2 requires explicit source root; generic group/groups replaces business grouping",
-    "Metadata basic reader includes boot identity; additional SSH/status/key-stdin helpers are new reference code"
+    "Metadata basic reader includes boot identity; additional SSH/status/key-stdin helpers are new reference code",
+    "v0.3.0 inplace tools derived from local recovery/revert sources; incident tool paths, marker, root exclusions, year/store order and order identifiers removed",
+    "Marker, root order, suffix and excluded prefixes are explicit inputs; pinned external dependency is verified before imports",
+    "Added resume configuration binding, root non-overlap/filesystem checks, explicit execute/selection flags and shared recovery/revert state lock",
+    "Revert uses filesystem-local barriers and persists rebuilt ciphertext before removing plaintext",
+    "Synthetic tests use random non-incident keys and temporary files; FICLONE/syncfs emulated locally, no NAS connections",
+    "Field evidence exported as aggregate numbers/times and source snapshot digest only; no names, paths, accounts or session marker"
   ],
   "files": [
     {
@@ -106,6 +112,39 @@
       "source_sha256": "7de635e8a57cfcc99ed7377d58c27be10d76b42c9b9e7fcd0b32c68291d654c9",
       "exported": "scripts/nas-processes.py",
       "exported_sha256": "7de635e8a57cfcc99ed7377d58c27be10d76b42c9b9e7fcd0b32c68291d654c9"
+    },
+    {
+      "source": "scripts/inplace-recover.py",
+      "source_sha256": "073a5fd290135829e842ff05631250fff489e23bc521f7d028f7b7bfe3056b2a",
+      "exported": "scripts/inplace-recover.py",
+      "exported_sha256": "3afe1471309df12ab7e13d1efe31b609080f40459342a5548e76a0b7ecb6bf56"
+    },
+    {
+      "source": "scripts/inplace-revert.py",
+      "source_sha256": "59006e44def45550ce4734ef2506542f83283909e3f12eb25157824ffcf0274a",
+      "exported": "scripts/inplace-revert.py",
+      "exported_sha256": "5d513e1bcf3579df299d1f081f3b84db186c44069b2cbe4123584d278b5828d4"
+    },
+    {
+      "source": "scripts/test-inplace-recover.py",
+      "source_sha256": "1b52d3cec42ba72610b547bab66683cc53970e8029c91e0b94804522c0a00b9a",
+      "exported": "scripts/test-inplace-recover.py",
+      "exported_sha256": "02bddd8e27f82a8427948d3c176ceae18ab0eb6d238862ef67ae0c7cbaabf55d"
     }
-  ]
+  ],
+  "inplace_test_additional_sources": [
+    {
+      "source": "scripts/test-inplace-pipeline.py",
+      "source_sha256": "560a11f113b2f7fc4e93045ca86ceec0e5444dfafdef2fff43755734ab4873bd"
+    },
+    {
+      "source": "scripts/test-inplace-owner-variants.py",
+      "source_sha256": "02e9874287d552f105e610d15b380cbc1f5b2d6da509e0e3fdb9bd0f44dc7bf0"
+    },
+    {
+      "source": "scripts/test-inplace-appledouble.py",
+      "source_sha256": "97f55002ac4dac203c9e196e1912488912bf0ca68ab269648c2a1cd87eda533c"
+    }
+  ],
+  "scope_note": "Source digests identify the local source snapshot read for export. Public modifications were not deployed to the incident environment."
 }

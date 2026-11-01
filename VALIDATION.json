@@ -1,64 +1,173 @@
 {
-  "version": "0.1.0",
-  "validated_at": "2026-11-01T14:41:06.675862+08:00",
+  "version": "0.3.0",
+  "validated_at": "2026-11-01T19:27:22.220386+08:00",
+  "scope": "Public export: local synthetic tests only; historical source-tool field evidence separately reported",
   "environment": {
-    "os": "macOS 27.0.1 arm64",
-    "python": "3.12.15",
-    "numpy": "2.3.5",
-    "cryptography": "50.0.2"
+    "os": "macOS-27.0.1-arm64-arm-64bit",
+    "python": "3.12.15"
   },
-  "scope": "Exported reference code with separately obtained pinned upstream dependency; temporary synthetic fixtures only",
   "suites": {
     "manifest": 9,
     "baseline": 7,
     "v2": 18,
     "v3": 24,
     "publication-eligibility": 6,
-    "generic-adapter": 4
+    "generic-adapter": 4,
+    "inplace-recover-and-revert": 13
   },
-  "test_invocations": 68,
+  "test_invocations": 81,
   "all_passed": true,
-  "count_note": "v2/v3 inherit baseline tests; invocations are not distinct independent cases.",
-  "covered": [
-    "copy/decrypt/readback/resume with synthetic keys",
-    "real fork exits at journal boundaries",
-    "partial and wrong orphan preservation",
-    "source drift, wrong key, output collision, device identity and capacity refusal",
-    "pause/drain, torn journal tail, log write failures",
-    "directory replacement, symlink and cache checks",
-    "single approved non-date-specific root and explicit marker",
-    "publication qualification without publishing"
-  ],
-  "not_validated": [
-    "live customer recovery",
-    "real NAS deployment of v2/v3",
-    "real hardware power-loss durability",
-    "Linux USB probe on another customer device",
-    "Windows/macOS network-source client",
-    "production file-sharing permissions or HTTPS",
-    "all ransomware variants or all session keys"
-  ],
-  "extracted_zip_retest_passed": true,
-  "extracted_zip_test_invocations": 68,
-  "markdown_relative_links_checked": true,
-  "python_syntax_checked": true,
-  "package_boundary_tests": {
-    "invocations": 5,
-    "all_passed": true,
+  "count_note": "Inherited baseline/v2/v3 tests repeat; invocation counts are not independent real files.",
+  "local_test_evidence": "docs/evidence/v0.3.0-tests.json",
+  "inplace": {
+    "ficlone": "emulated copy on temporary synthetic files",
+    "syncfs": "emulated no-op; no host-wide sync",
     "covered": [
-      "strict allowlist",
-      "exclusive archive creation",
-      "extra private file refusal",
-      "symlink/missing file refusal",
-      "known secret and case-path pattern refusal",
-      "export provenance drift refusal"
+      "0x24, 0x26, 0x25 parameters 10/50 with a segment exceeding CALL_LIMIT",
+      "plaintext SHA, rebuilt ciphertext SHA, second recovery SHA; metadata preservation",
+      "archive barrier before ciphertext unlink; completion delayed until following barrier/drain",
+      "linked target/source and missing-source resume, torn tail, mid-journal corruption refusal",
+      "FICLONE failure, collisions and wrong marker preserve source",
+      "Office owner, OLE, legacy MOV, AppleDouble/AppleSingle and unknown signature retention",
+      "explicit exclusions, hidden files, symlinks/hardlinks, unchanged unencrypted original",
+      "same-state lock, changed resume configuration refusal, STOP drain/resume and worker/commit overlap",
+      "cross-filesystem source refusal before clone",
+      "archive sync failure prevents plaintext installation/ciphertext unlink"
     ]
   },
-  "subsequent_review": {
-    "version": "0.2.0",
-    "recovery_algorithm_changed": false,
-    "changes": "First-session and key workflow; read-only SSH/status helpers; explicit generic source scope and names",
-    "new_workflow_live_nas_verified": false,
-    "note": "Earlier validation above is historical; it does not certify every new workflow or another customer NAS."
+  "historical_source_tool_evidence": {
+    "date": "2026-11-01",
+    "timezone": "+08:00",
+    "source_receipts": [
+      "002-inplace-recovery.receipt.md",
+      "002a-tuning.receipt.md",
+      "002b-pipeline.receipt.md"
+    ],
+    "source_experiment_summary": "IN-PLACE-RECOVERY.md (private original)",
+    "field_aggregate": "docs/evidence/v0.3.0-field-summary.json",
+    "sha_comparison": {
+      "files": 885,
+      "matches": 885,
+      "comparison": "previously recovered plaintext, not independently trusted historical originals",
+      "source_metadata_unchanged": 885
+    },
+    "real_btrfs_synthetic": {
+      "start": "2026-11-01T18:36:16+08:00",
+      "end": "2026-11-01T18:37:31+08:00",
+      "plaintext_sha_matches": 6,
+      "reverted_ciphertext_sha_matches": 6,
+      "second_recovery_sha_matches": 6
+    },
+    "encryption_sample": {
+      "footers": 9839,
+      "shares": 28,
+      "weighted_fraction": 0.149,
+      "typical_fraction_range": [
+        0.12,
+        0.15
+      ],
+      "complete_inventory": false
+    },
+    "snapshot": {
+      "observed_at": "2026-11-01T19:18:30.069815+08:00",
+      "files": 52708,
+      "bytes": 475120387060,
+      "errors": 0,
+      "conflicts": 0,
+      "magic_mismatch_unresolved": 17
+    },
+    "pipeline_receipt_available_at_read": true,
+    "performance_boundary": "Sequential different workloads, including thread/configuration changes; logical committed bytes rather than physical writes.",
+    "pipeline_receipt_read_note": "Receipt appeared during export preparation and was incorporated; original 19:18 snapshot is retained.",
+    "pipeline_btrfs_synthetic": {
+      "sha_matches": 325,
+      "at": "2026-11-01T18:56:36+08:00",
+      "owner_variants_sha_matches": 9,
+      "apple_metadata_sha_matches": 6
+    },
+    "final_receipt_snapshot": {
+      "at": "2026-11-01T19:25:06+08:00",
+      "files": 55994,
+      "bytes": 527093091392,
+      "errors": 0,
+      "conflicts": 0,
+      "magic_mismatch_unresolved": 0,
+      "historical_unique_mismatch_paths": 405,
+      "resolved_unique_mismatch_paths": 405,
+      "pending_sync_files": 294
+    }
+  },
+  "not_validated": [
+    "Deployment of this generalized v0.3.0 export on any NAS",
+    "Real FICLONE/syncfs or hardware power-loss durability by these local tests",
+    "All files, sessions, formats or historical originals",
+    "Exact recovery after plaintext was edited, or archival footer as a full backup",
+    "Per-file xattr/ACL preservation or adversarial concurrent parent replacement",
+    "Production file-sharing permissions/HTTPS or automated publication of inplace directories",
+    "Other customer hardware, environment or throughput"
+  ],
+  "historical_validation": {
+    "version": "0.1.0",
+    "validated_at": "2026-11-01T14:41:06.675862+08:00",
+    "environment": {
+      "os": "macOS 27.0.1 arm64",
+      "python": "3.12.15",
+      "numpy": "2.3.5",
+      "cryptography": "50.0.2"
+    },
+    "scope": "Exported reference code with separately obtained pinned upstream dependency; temporary synthetic fixtures only",
+    "suites": {
+      "manifest": 9,
+      "baseline": 7,
+      "v2": 18,
+      "v3": 24,
+      "publication-eligibility": 6,
+      "generic-adapter": 4
+    },
+    "test_invocations": 68,
+    "all_passed": true,
+    "count_note": "v2/v3 inherit baseline tests; invocations are not distinct independent cases.",
+    "covered": [
+      "copy/decrypt/readback/resume with synthetic keys",
+      "real fork exits at journal boundaries",
+      "partial and wrong orphan preservation",
+      "source drift, wrong key, output collision, device identity and capacity refusal",
+      "pause/drain, torn journal tail, log write failures",
+      "directory replacement, symlink and cache checks",
+      "single approved non-date-specific root and explicit marker",
+      "publication qualification without publishing"
+    ],
+    "not_validated": [
+      "live customer recovery",
+      "real NAS deployment of v2/v3",
+      "real hardware power-loss durability",
+      "Linux USB probe on another customer device",
+      "Windows/macOS network-source client",
+      "production file-sharing permissions or HTTPS",
+      "all ransomware variants or all session keys"
+    ],
+    "extracted_zip_retest_passed": true,
+    "extracted_zip_test_invocations": 68,
+    "markdown_relative_links_checked": true,
+    "python_syntax_checked": true,
+    "package_boundary_tests": {
+      "invocations": 5,
+      "all_passed": true,
+      "covered": [
+        "strict allowlist",
+        "exclusive archive creation",
+        "extra private file refusal",
+        "symlink/missing file refusal",
+        "known secret and case-path pattern refusal",
+        "export provenance drift refusal"
+      ]
+    },
+    "subsequent_review": {
+      "version": "0.2.0",
+      "recovery_algorithm_changed": false,
+      "changes": "First-session and key workflow; read-only SSH/status helpers; explicit generic source scope and names",
+      "new_workflow_live_nas_verified": false,
+      "note": "Earlier validation above is historical; it does not certify every new workflow or another customer NAS."
+    }
   }
 }
