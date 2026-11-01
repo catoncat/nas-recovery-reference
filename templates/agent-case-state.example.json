@@ -49,16 +49,7 @@
   "completed_inventory_scope_references_do_not_rescan": [],
   "completed_validation_references_do_not_repeat": [],
   "monitor_index_reference": null,
-  "gates": [
-    {
-      "gate_id": "G1",
-      "proposed_action": null,
-      "result": "blocked",
-      "reason": "Template has no incident-specific evidence or authorization.",
-      "evidence_references": [],
-      "checked_at": null
-    }
-  ],
+  "gates": [],
   "completion": {
     "inventory_complete": "unknown",
     "manifest_recovery_complete": "unknown",
@@ -70,5 +61,11 @@
   "unknowns": [
     "All real incident facts must be established; template values are not pass results."
   ],
-  "next_allowed_action": "Local documentation/code review only until relevant incident evidence and authorization are established."
+  "next_allowed_action": "Determine the current recovery step from operator instructions and existing evidence; advance authorized work and resolve only relevant missing inputs.",
+  "recovery_objective": {
+    "urgent_business_scope_reference": null,
+    "expected_delivery_reference": null,
+    "current_work_step": "unknown",
+    "next_concrete_deliverable": null
+  }
 }
