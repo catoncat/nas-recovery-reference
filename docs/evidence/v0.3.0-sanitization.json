@@ -1,6 +1,6 @@
 {
-  "checked_at": "2026-11-01T19:27:47.438807+08:00",
-  "files_scanned": 58,
+  "checked_at": "2026-11-01T19:47:57.604801+08:00",
+  "files_scanned": 57,
   "private_literal_patterns": 85,
   "private_literal_matching_files": [],
   "general_indicator_matching_files": [
@@ -18,7 +18,7 @@
     "grep -IlF -f - FILE (private literals supplied on stdin, one file at a time)",
     "grep -IlE \"$GENERAL_INDICATOR_PATTERN\" FILE"
   ],
-  "scope": "Working-tree files except .git, pre-existing .DS_Store and bytecode; includes SVG/HTML/PNG and public evidence",
+  "scope": "All tracked public reference files, including SVG/HTML/PNG, provenance and evidence; excludes .git and pre-existing untracked/ignored system/design metadata",
   "note": "Private patterns are derived locally from case state, queued root names and source marker; no pattern list or raw matches published. Public upstream URLs/synthetic examples retained.",
   "general_indicator_families": [
     "absolute macOS home paths",

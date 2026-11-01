@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-01T19:27:47.111620+08:00",
+  "checked_at": "2026-11-01T19:47:57.623303+08:00",
   "python_syntax_files": 23,
   "json_files": 9,
   "relative_links": 55,
@@ -8,5 +8,7 @@
     "help_exit_0": 2,
     "malformed_marker_exit_2_before_key_read": 2
   },
-  "diff_whitespace_check": "git diff --check: passed"
+  "diff_whitespace_check": "git diff --check: passed",
+  "scope": "Tracked public reference files",
+  "checksum_entries": 56
 }

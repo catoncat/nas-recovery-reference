@@ -14,7 +14,8 @@
     "Added resume configuration binding, root non-overlap/filesystem checks, explicit execute/selection flags and shared recovery/revert state lock",
     "Revert uses filesystem-local barriers and persists rebuilt ciphertext before removing plaintext",
     "Synthetic tests use random non-incident keys and temporary files; FICLONE/syncfs emulated locally, no NAS connections",
-    "Field evidence exported as aggregate numbers/times and source snapshot digest only; no names, paths, accounts or session marker"
+    "Field evidence exported as aggregate numbers/times and source snapshot digest only; no names, paths, accounts or session marker",
+    "Internal operational instructions and handoff records are excluded from public distribution; only sanitized evidence aggregates and validation summaries are exported"
   ],
   "files": [
     {
@@ -146,5 +147,17 @@
       "source_sha256": "97f55002ac4dac203c9e196e1912488912bf0ca68ab269648c2a1cd87eda533c"
     }
   ],
-  "scope_note": "Source digests identify the local source snapshot read for export. Public modifications were not deployed to the incident environment."
+  "scope_note": "Source digests identify the local source snapshot read for export. Public modifications were not deployed to the incident environment.",
+  "distribution_scope": {
+    "includes": [
+      "reference documentation",
+      "generalized scripts and synthetic tests",
+      "sanitized evidence aggregates and validation summaries"
+    ],
+    "excludes": [
+      "internal operational instructions",
+      "internal execution handoff records",
+      "private incident state and original evidence"
+    ]
+  }
 }
