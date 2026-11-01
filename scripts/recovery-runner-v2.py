@@ -17,7 +17,7 @@ import threading
 import time
 import uuid
 
-spec=importlib.util.spec_from_file_location('october_export_baseline',Path(__file__).with_name('october-export-runner.py'))
+spec=importlib.util.spec_from_file_location('recovery_export_baseline',Path(__file__).with_name('recovery-runner.py'))
 base=importlib.util.module_from_spec(spec);spec.loader.exec_module(base)
 a=base.a;r=base.r;pre=base.pre
 observe_target=base.observe_target
@@ -221,22 +221,22 @@ class Export(base.Export):
         if len(self.records)!=len(entries):raise r.Refused('Manifest did not complete')
         for entry in entries:self._record_ok(entry,self.records[entry['id']])
         if self.probe(self.mount)!=self.identity:raise r.Refused('Final target identity differs')
-        stores={}
+        groups={}
         for entry in entries:
-            store=stores.setdefault(entry['store'],dict(files=0,bytes=0,copy_files=0,decrypt_files=0));store['files']+=1;store['bytes']+=entry['expected_output_bytes'];store[entry['operation']+'_files']+=1
-        return self.status('completed-manifest',manifest_sha256=self.fingerprint,stores=stores,readback_verified=True,
+            group=groups.setdefault(entry['group'],dict(files=0,bytes=0,copy_files=0,decrypt_files=0));group['files']+=1;group['bytes']+=entry['expected_output_bytes'];group[entry['operation']+'_files']+=1
+        return self.status('completed-manifest',manifest_sha256=self.fingerprint,groups=groups,readback_verified=True,
             source_files_preserved=True,target_identity=self.identity)
 
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    for arg in ['bundle','target-identity','state-dir','expected-manifest-sha256']:parser.add_argument('--'+arg,required=True)
+    for arg in ['bundle','target-identity','state-dir','expected-manifest-sha256','approved-source-root']:parser.add_argument('--'+arg,required=True)
     parser.add_argument('--execute',action='store_true');parser.add_argument('--marker',required=True);args=parser.parse_args();master=None
     if args.execute:
         line=sys.stdin.buffer.readline(128).strip()
         if len(line)!=102 or not line.startswith(b'KEY48:'):raise r.Refused('KEY48 stdin line required')
         master=bytes.fromhex(line[6:].decode('ascii'));del line
-    result=Export(json.loads(Path(args.bundle).read_text()),json.loads(Path(args.target_identity).read_text()),args.state_dir,args.expected_manifest_sha256,master,bytes.fromhex(args.marker)).run(args.execute)
+    result=Export(json.loads(Path(args.bundle).read_text()),json.loads(Path(args.target_identity).read_text()),args.state_dir,args.expected_manifest_sha256,master,bytes.fromhex(args.marker),approved_source_root=args.approved_source_root).run(args.execute)
     del master;print(json.dumps(result,ensure_ascii=False))
 
 if __name__=='__main__':main()

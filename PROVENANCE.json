@@ -1,11 +1,14 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "transformations": [
     "Incident names replaced by synthetic example names; marker replaced by synthetic a1b2c3d4",
     "CLI marker and original preflight plan/source-base are explicit inputs",
     "External crypto dependency verified before import; no third-party code redistributed",
     "Only allowlisted path helpers extracted; no ciphertext-delete implementation exported",
-    "Generic single-root adapter provided separately; original source unchanged"
+    "Generic single-root adapter provided separately; original source unchanged",
+    "Public module names and examples generalized to files/directories; no business/date source fallback",
+    "Manifest version 2 requires explicit source root; generic group/groups replaces business grouping",
+    "Metadata basic reader includes boot identity; additional SSH/status/key-stdin helpers are new reference code"
   ],
   "files": [
     {
@@ -17,26 +20,26 @@
     {
       "source": "scripts/october-export-manifest.py",
       "source_sha256": "ea9dd662d6bed2ad0aa76b982f39505e3e2976f834946c0289e6acb09dac8465",
-      "exported": "scripts/october-export-manifest.py",
-      "exported_sha256": "70003ef36f06e2f373a219aaa90ae1dfc050f50d3103617c121e82bc623267da"
+      "exported": "scripts/recovery-manifest.py",
+      "exported_sha256": "f661db07fe05209e38f8e2e903cc117c6a7f403f0c3b6f16363f13e55f814601"
     },
     {
       "source": "scripts/october-export-runner.py",
       "source_sha256": "964bd16e5bc10a360798759770103422f45b02d8889df0b5581367639c0a23de",
-      "exported": "scripts/october-export-runner.py",
-      "exported_sha256": "40f54cdb2f3dc31a17d4883b834bf51791e9b616a28b2ee6b979a092053289c6"
+      "exported": "scripts/recovery-runner.py",
+      "exported_sha256": "1eab135f056cf67d32b0383d04fb202aed84189bd624334ee3132617b85ce7ba"
     },
     {
       "source": "scripts/october-export-runner-v2.py",
       "source_sha256": "c8b87bed88422aa8384bc53158bf1073b5fd4c623e3ec1ed2bfd9cca0887dc1b",
-      "exported": "scripts/october-export-runner-v2.py",
-      "exported_sha256": "bd36a970f1065b0ba153213f98c37392119510a0afbb7e7420e5fb6db254e30d"
+      "exported": "scripts/recovery-runner-v2.py",
+      "exported_sha256": "bc6c65e0d83e636b46e26a0135f0c495f016dc748395d5a47e8adbef37f4a5eb"
     },
     {
       "source": "scripts/october-export-runner-v3.py",
       "source_sha256": "43918f3b468470b14e71d472723e6a91b21907c5d45157024f83b976c941ea45",
-      "exported": "scripts/october-export-runner-v3.py",
-      "exported_sha256": "b08728d798f989aaec3ef060cecb27121f7194e59f9f9894ecf71f641809cfda"
+      "exported": "scripts/recovery-runner-v3.py",
+      "exported_sha256": "e34da15ecbd18d5707a40d6d89572bd68fbf391e9357be817a75952ff385ca16"
     },
     {
       "source": "scripts/publication-eligibility.py",
@@ -47,32 +50,32 @@
     {
       "source": "scripts/test-october-export-manifest.py",
       "source_sha256": "52eddbbafd48e04fbee1de7e12c9a6cbf4114056c22692d3f832b8c144324950",
-      "exported": "scripts/test-october-export-manifest.py",
-      "exported_sha256": "512c19b42f55188107c89e4bfe91109d08e1ba886fc396da8b5d280fb479460e"
+      "exported": "scripts/test-recovery-manifest.py",
+      "exported_sha256": "976de60939c9539de529c7d6497a4f15e24a90e359072d30d2f10090d2598300"
     },
     {
       "source": "scripts/test-october-export-runner.py",
       "source_sha256": "2bbf53f78a5be47f67da4ba304850821f17e994f7c53208fef68094bf5343983",
-      "exported": "scripts/test-october-export-runner.py",
-      "exported_sha256": "9b29539cc21acc4d622db2f8da8e4274ba616a9c56fb14117fdaef84872d6261"
+      "exported": "scripts/test-recovery-runner.py",
+      "exported_sha256": "fd655333112f4b77e35bd0914e133650ad19f2ee9d3f5419ae99c067782876b1"
     },
     {
       "source": "scripts/test-october-export-runner-v2.py",
       "source_sha256": "40d97751bd7ef21f08a27a5a6648d10b4e384790da567fcb2766e64d34578966",
-      "exported": "scripts/test-october-export-runner-v2.py",
-      "exported_sha256": "40d97751bd7ef21f08a27a5a6648d10b4e384790da567fcb2766e64d34578966"
+      "exported": "scripts/test-recovery-runner-v2.py",
+      "exported_sha256": "1e670476f6621212a9d9128209bea27bdf05d048f437a514aa62f13a78d3a96f"
     },
     {
       "source": "scripts/test-october-export-runner-v3.py",
       "source_sha256": "4bbf19e698d86c2860ecaa6adbf1ba0d7196f327a02ddaf6fa48d203cc288144",
-      "exported": "scripts/test-october-export-runner-v3.py",
-      "exported_sha256": "1883945c3e536af0ea2a38bb2e46867a21a452d52f9ffaf5da085f6121cd62b5"
+      "exported": "scripts/test-recovery-runner-v3.py",
+      "exported_sha256": "71c12da4cdf6d2cfbc349507cfd438c703faaf71d334bf2532706518c3409436"
     },
     {
       "source": "scripts/test-publication-eligibility.py",
       "source_sha256": "59af4397909b422db90ef39f5912ca292fb1d66729918a66c31222e396becc62",
       "exported": "scripts/test-publication-eligibility.py",
-      "exported_sha256": "59af4397909b422db90ef39f5912ca292fb1d66729918a66c31222e396becc62"
+      "exported_sha256": "1083aceceac8faecd3848936529acbfc98d57c892edf5eb5bf16f7cb992cf49a"
     },
     {
       "source": "scripts/rolling-delete.py",
@@ -91,6 +94,18 @@
         "readonly",
         "valid_sha"
       ]
+    },
+    {
+      "source": "scripts/nas-basic.sh",
+      "source_sha256": "e5cfc258002135e50ff71f756086321a14adc87988df0aea84bce2f9c4fd0fec",
+      "exported": "scripts/nas-basic.sh",
+      "exported_sha256": "f565ff22eb76827b23f285a6f2475829726dd84b326bae78f419bb26d602b7e4"
+    },
+    {
+      "source": "scripts/nas-processes.py",
+      "source_sha256": "7de635e8a57cfcc99ed7377d58c27be10d76b42c9b9e7fcd0b32c68291d654c9",
+      "exported": "scripts/nas-processes.py",
+      "exported_sha256": "7de635e8a57cfcc99ed7377d58c27be10d76b42c9b9e7fcd0b32c68291d654c9"
     }
   ]
 }

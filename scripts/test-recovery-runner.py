@@ -9,20 +9,20 @@ import struct
 import tempfile
 import unittest
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-spec=importlib.util.spec_from_file_location('octexport',Path(__file__).with_name('october-export-runner.py'));m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+spec=importlib.util.spec_from_file_location('recovery_export',Path(__file__).with_name('recovery-runner.py'));m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 MASTER=bytes(range(48));KEY=bytes(reversed(range(32)));NONCE=bytes.fromhex('01030507090b0d0f');MARKER=bytes.fromhex('a1b2c3d4')
 
 class ExportTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup);self.root=Path(self.temp.name).resolve()
-        self.base=self.root/'volume2';self.month=self.base/'ExampleShare'/'店A'/'2026'/'10月';self.month.mkdir(parents=True)
-        self.mount=self.root/'usb';self.mount.mkdir();self.target=self.mount/'Recovery_October2026';self.state=self.root/'control'
-        self.proposal=dict(jobs=[dict(store='店A',source=str(self.month),output_relative=str(self.month.relative_to(self.base)))],destination=dict(proposed_mount=str(self.mount),proposed_root=self.target.name,filesystem='NTFS',expected_usb='fixture',last_free_bytes=10**12,last_observed_at=1234,reserve_bytes=50*10**9,metadata_budget_bytes=10*10**9))
+        self.base=self.root/'volume2';self.scope=self.base/'data'/'selected-files';self.scope.mkdir(parents=True)
+        self.mount=self.root/'usb';self.mount.mkdir();self.target=self.mount/'RecoveredFiles';self.state=self.root/'control'
+        self.proposal=dict(jobs=[dict(group=self.scope.name,source=str(self.scope),output_relative=str(self.scope.relative_to(self.base)))],destination=dict(proposed_mount=str(self.mount),proposed_root=self.target.name,filesystem='NTFS',expected_usb='fixture',last_free_bytes=10**12,last_observed_at=1234,reserve_bytes=50*10**9,metadata_budget_bytes=10*10**9))
         info=self.mount.stat();v=os.statvfs(self.mount)
         self.identity=dict(mount=str(self.mount),source='/dev/fixture',uuid='fixture-uuid',filesystem='fixture',st_dev=info.st_dev,root_ino=info.st_ino,total_bytes=v.f_blocks*v.f_frsize,block_bytes=10**12,model='fixture',usb_id='0000:0000')
         self.expected={}
     def clear(self,name='clear.jpg',data=b'known clear image'):
-        source=self.month/name;source.write_bytes(data);self.expected[str(source)]=data;return source
+        source=self.scope/name;source.write_bytes(data);self.expected[str(source)]=data;return source
     def cipher(self,name='cipher.jpg',size=10003):
         plain=(bytes(range(251))*(size//251+1))[:size];body=bytearray(plain);counter=0
         for offset,length in m.a.encrypted_segments(size,0x25,10):
@@ -30,10 +30,10 @@ class ExportTests(unittest.TestCase):
             while length:
                 amount=min(length,m.a.CALL_LIMIT);out,counter=m.a.chacha8_call(bytes(body[cursor:cursor+amount]),KEY,NONCE,counter);body[cursor:cursor+amount]=out;cursor+=amount;length-=amount
         footer=bytearray(588);encryptor=Cipher(algorithms.AES(MASTER[16:]),modes.CBC(MASTER[:16])).encryptor();footer[:48]=encryptor.update(KEY+NONCE+NONCE)+encryptor.finalize();footer[568:572]=MARKER;footer[572:576]=bytes((0x25,10,0x20,0));struct.pack_into('<I',footer,576,240002);struct.pack_into('<Q',footer,580,size)
-        source=self.month/(name+'.L0CK3D');source.write_bytes(body+footer);self.expected[str(source)]=plain;return source
-    def prepare(self):self.bundle=m.pre.make_manifest(self.proposal,self.base,self.target,now=5678);self.sha=self.bundle['hashes']['manifest'];return self.bundle
+        source=self.scope/(name+'.L0CK3D');source.write_bytes(body+footer);self.expected[str(source)]=plain;return source
+    def prepare(self):self.bundle=m.pre.make_manifest(self.proposal,self.base,self.target,now=5678,approved_source_root=self.scope);self.sha=self.bundle['hashes']['manifest'];return self.bundle
     def runner(self,**kwargs):
-        kwargs.setdefault('identity_probe',lambda mount:self.identity);kwargs.setdefault('free_probe',lambda:10**12)
+        kwargs.setdefault('approved_source_root',self.scope);kwargs.setdefault('identity_probe',lambda mount:self.identity);kwargs.setdefault('free_probe',lambda:10**12)
         return m.Export(self.bundle,self.identity,self.state,self.sha,MASTER,MARKER,**kwargs)
     def rows(self):return [json.loads(line) for line in (self.state/'completion.jsonl').read_text().splitlines()]
     def fork_exit(self,point):
@@ -47,7 +47,7 @@ class ExportTests(unittest.TestCase):
         self.clear();self.cipher();self.prepare();before={e['source']:Path(e['source']).read_bytes() for e in self.bundle['manifest']['entries']}
         self.assertEqual(self.runner().run()['state'],'preflight-only');self.assertFalse(self.state.exists());self.assertFalse(self.target.exists())
         result=self.runner().run(True);self.assertEqual(result['state'],'completed-manifest');self.assertEqual(result['completed_files'],2)
-        self.assertEqual(result['stores']['店A']['copy_files'],1);self.assertEqual(result['stores']['店A']['decrypt_files'],1)
+        self.assertEqual(result['groups']['selected-files']['copy_files'],1);self.assertEqual(result['groups']['selected-files']['decrypt_files'],1)
         for entry in self.bundle['manifest']['entries']:
             self.assertEqual(Path(entry['output']).read_bytes(),self.expected[entry['source']]);self.assertEqual(Path(entry['source']).read_bytes(),before[entry['source']])
         completions=[x for x in self.rows() if x['kind']=='complete'];self.assertEqual(len(completions),2)
@@ -59,7 +59,7 @@ class ExportTests(unittest.TestCase):
                 if cipher:
                     # Separate control and target are required for the second immutable manifest.
                     self.state=self.root/'control2';self.target=self.mount/'Second';self.proposal['destination']['proposed_root']='Second'
-                    for p in self.month.iterdir():p.unlink()
+                    for p in self.scope.iterdir():p.unlink()
                     self.cipher()
                 else:self.clear()
                 self.prepare();self.fork_exit('verified-output-before-record')

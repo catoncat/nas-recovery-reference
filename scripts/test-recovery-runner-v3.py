@@ -15,20 +15,20 @@ HERE=Path(__file__).resolve().parent
 def load(name,file):
     spec=importlib.util.spec_from_file_location(name,HERE/file);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
 
-m=load('october_v3','october-export-runner-v3.py');fixtures=load('october_original_fixtures','test-october-export-runner.py');fixtures.m=m
+m=load('recovery_v3','recovery-runner-v3.py');fixtures=load('recovery_original_fixtures','test-recovery-runner.py');fixtures.m=m
 
 class V3Tests(fixtures.ExportTests):
-    def test_explicit_non_october_root_requires_caller_scope_and_resumes(self):
-        self.month=self.base/'ExampleBranch'/'ExampleProject';self.month.mkdir(parents=True)
+    def test_explicit_arbitrary_root_requires_caller_scope_and_resumes(self):
+        self.scope=self.base/'data'/'priority-files';self.scope.mkdir(parents=True)
         self.clear();self.cipher()
-        self.proposal['jobs']=[dict(store=self.month.name,source=str(self.month),output_relative=str(self.month.relative_to(self.base)))]
+        self.proposal['jobs']=[dict(group=self.scope.name,source=str(self.scope),output_relative=str(self.scope.relative_to(self.base)))]
         with self.assertRaises(m.pre.Refused):m.pre.make_manifest(self.proposal,self.base,self.target)
-        self.bundle=m.pre.make_manifest(self.proposal,self.base,self.target,approved_source_root=self.month)
+        self.bundle=m.pre.make_manifest(self.proposal,self.base,self.target,approved_source_root=self.scope)
         self.sha=self.bundle['hashes']['manifest']
-        with self.assertRaises(m.r.Refused):self.runner()
+        with self.assertRaises(m.r.Refused):self.runner(approved_source_root=None)
         with self.assertRaises(m.r.Refused):self.runner(approved_source_root=self.base/'other')
-        self.assertEqual(self.runner(approved_source_root=self.month).run(True)['completed_files'],2)
-        self.assertEqual(self.runner(approved_source_root=self.month).run(True)['completed_files'],2)
+        self.assertEqual(self.runner(approved_source_root=self.scope).run(True)['completed_files'],2)
+        self.assertEqual(self.runner(approved_source_root=self.scope).run(True)['completed_files'],2)
 
     def test_existing_parents_do_not_attempt_mkdir(self):
         self.clear();self.prepare();runner=self.runner()
@@ -181,7 +181,7 @@ class V3Tests(fixtures.ExportTests):
         counts={};real_fsync=os.fsync
         def run_count(export_type,control):
             counter=dict(output_file=0,output_parent=0,journal=0,readback=0);parent_identity=(output_parent.stat().st_dev,output_parent.stat().st_ino)
-            runner=export_type(self.bundle,self.identity,control,self.sha,fixtures.MASTER,fixtures.MARKER,identity_probe=lambda mount:self.identity,free_probe=lambda:10**12)
+            runner=export_type(self.bundle,self.identity,control,self.sha,fixtures.MASTER,fixtures.MARKER,approved_source_root=self.scope,identity_probe=lambda mount:self.identity,free_probe=lambda:10**12)
             def sync(fd):
                 info=os.fstat(fd);identity=(info.st_dev,info.st_ino)
                 if identity==parent_identity:counter['output_parent']+=1
@@ -225,12 +225,12 @@ class V3Tests(fixtures.ExportTests):
         result=runner.run(True);resumed=self.runner().run(True)
         self.assertEqual(result['completed_bytes'],sum(e['expected_output_bytes'] for e in self.bundle['manifest']['entries']))
         self.assertEqual(result['completed_bytes'],resumed['completed_bytes'])
-        self.assertEqual(result['stores'],resumed['stores'])
+        self.assertEqual(result['groups'],resumed['groups'])
 
     def test_directory_concurrency_is_bounded_and_all_entries_are_delivered(self):
         import time
         for directory in range(5):
-            (self.month/str(directory)).mkdir()
+            (self.scope/str(directory)).mkdir()
             for index in range(3):self.clear(str(directory)+'/'+str(index)+'.jpg')
         self.prepare();runner=self.runner();original=runner.one
         lock=threading.Lock();active={};peak=[]

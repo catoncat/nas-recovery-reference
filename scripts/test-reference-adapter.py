@@ -17,7 +17,7 @@ def load(name, file):
     return result
 
 
-fixtures = load('adapter_fixtures', 'test-october-export-runner.py')
+fixtures = load('adapter_fixtures', 'test-recovery-runner.py')
 adapter = load('reference_adapter', 'recover.py')
 
 
@@ -28,11 +28,11 @@ class AdapterTests(unittest.TestCase):
 
     def plan_args(self, output):
         identity = self.root / 'target.json'; identity.write_text(json.dumps(self.identity))
-        return ['recover.py', 'plan', '--source-base', str(self.base), '--approved-source-root', str(self.month),
+        return ['recover.py', 'plan', '--source-base', str(self.base), '--approved-source-root', str(self.scope),
                 '--target-root', str(self.target), '--target-identity', str(identity), '--bundle-out', str(output)]
 
     def test_single_root_plan_and_runner_scope(self):
-        self.month = self.base / 'CustomerBranch' / 'UrgentProject'; self.month.mkdir(parents=True)
+        self.scope = self.base / 'data' / 'priority-files'; self.scope.mkdir(parents=True)
         self.clear(); self.cipher()
         output = self.root / 'bundle.json'
         with patch.object(sys, 'argv', self.plan_args(output)):
@@ -46,7 +46,7 @@ class AdapterTests(unittest.TestCase):
 
     def test_bundle_may_not_be_written_to_source_or_target(self):
         self.clear()
-        for output in [self.month / 'bundle.json', self.mount / 'bundle.json']:
+        for output in [self.scope / 'bundle.json', self.mount / 'bundle.json']:
             with patch.object(sys, 'argv', self.plan_args(output)):
                 with self.assertRaises(ValueError): adapter.main()
             self.assertFalse(output.exists())
@@ -59,7 +59,7 @@ class AdapterTests(unittest.TestCase):
             self.assertEqual(result.returncode, 2)
 
     def test_no_implicit_constructor_marker(self):
-        self.clear(); bundle = fixtures.m.pre.make_manifest(self.proposal, self.base, self.target)
+        self.clear(); bundle = fixtures.m.pre.make_manifest(self.proposal, self.base, self.target, approved_source_root=self.scope)
         with self.assertRaises(fixtures.m.r.Refused):
             fixtures.m.Export(bundle, self.identity, self.state, bundle['hashes']['manifest'], fixtures.MASTER,
                               identity_probe=lambda mount: self.identity)

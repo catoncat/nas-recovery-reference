@@ -17,6 +17,7 @@
     "skills/dsm-ransomware-rescue/scripts/seal_evidence.py": "9b33edc5ad409d071a97a3542142414619e06b6ba5f5180ff64b58cf3df72356",
     "skills/dsm-ransomware-rescue/scripts/unpack_upx.py": "187659880a1672959a8cfb7c2bd7e128f4dd2f2be801418e81bdeede33de5c71",
     "skills/dsm-ransomware-rescue/scripts/verify_backup.py": "edb1d9d7be56523e01afa2844a7aeb5b5b4c83c6f55302c7b2d1085f70ada32b",
-    "skills/dsm-ransomware-rescue/scripts/verify_roots.py": "38041f90495141c5c1c181a3b7bd13b4654c9a5b40062ebf69b1b20805195894"
+    "skills/dsm-ransomware-rescue/scripts/verify_roots.py": "38041f90495141c5c1c181a3b7bd13b4654c9a5b40062ebf69b1b20805195894",
+    "skills/dsm-ransomware-rescue/assets/libgld-802ac85d.json": "f82ebf81d0d726f082df7403f47d6c7c313c8728c3c8b7ca68290157e40eb349"
   }
 }

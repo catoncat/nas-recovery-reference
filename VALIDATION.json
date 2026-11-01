@@ -53,5 +53,12 @@
       "known secret and case-path pattern refusal",
       "export provenance drift refusal"
     ]
+  },
+  "subsequent_review": {
+    "version": "0.2.0",
+    "recovery_algorithm_changed": false,
+    "changes": "First-session and key workflow; read-only SSH/status helpers; explicit generic source scope and names",
+    "new_workflow_live_nas_verified": false,
+    "note": "Earlier validation above is historical; it does not certify every new workflow or another customer NAS."
   }
 }

@@ -7,8 +7,8 @@ import subprocess
 import sys
 
 HERE = Path(__file__).resolve().parent
-TESTS = ['test-october-export-manifest.py', 'test-october-export-runner.py',
-         'test-october-export-runner-v2.py', 'test-october-export-runner-v3.py',
+TESTS = ['test-recovery-manifest.py', 'test-recovery-runner.py',
+         'test-recovery-runner-v2.py', 'test-recovery-runner-v3.py',
          'test-publication-eligibility.py', 'test-reference-adapter.py']
 
 if __name__ == '__main__':

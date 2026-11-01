@@ -15,7 +15,7 @@ HERE=Path(__file__).resolve().parent
 def load(name,file):
     spec=importlib.util.spec_from_file_location(name,HERE/file);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
 
-m=load('october_v2','october-export-runner-v2.py');fixtures=load('october_original_fixtures','test-october-export-runner.py');fixtures.m=m
+m=load('recovery_v2','recovery-runner-v2.py');fixtures=load('recovery_original_fixtures','test-recovery-runner.py');fixtures.m=m
 
 class V2Tests(fixtures.ExportTests):
     def test_existing_parents_do_not_attempt_mkdir(self):
@@ -168,7 +168,7 @@ class V2Tests(fixtures.ExportTests):
         counts={};real_fsync=os.fsync
         def run_count(export_type,control):
             counter=dict(output_file=0,output_parent=0,journal=0,readback=0);parent_identity=(output_parent.stat().st_dev,output_parent.stat().st_ino)
-            runner=export_type(self.bundle,self.identity,control,self.sha,fixtures.MASTER,fixtures.MARKER,identity_probe=lambda mount:self.identity,free_probe=lambda:10**12)
+            runner=export_type(self.bundle,self.identity,control,self.sha,fixtures.MASTER,fixtures.MARKER,approved_source_root=self.scope,identity_probe=lambda mount:self.identity,free_probe=lambda:10**12)
             def sync(fd):
                 info=os.fstat(fd);identity=(info.st_dev,info.st_ino)
                 if identity==parent_identity:counter['output_parent']+=1

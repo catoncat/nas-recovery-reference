@@ -42,7 +42,7 @@ def main():
     run.add_argument('--execute', action='store_true')
     args = parser.parse_args()
     if args.command == 'plan':
-        pre = load('reference_preflight', 'october-export-manifest.py')
+        pre = load('reference_preflight', 'recovery-manifest.py')
         source = pre.canonical(args.approved_source_root)
         base = pre.canonical(args.source_base)
         if source == base:
@@ -52,7 +52,7 @@ def main():
         if mount not in target.parents:
             raise ValueError('Target root must be below the reviewed mount')
         # Probe current free space; identity itself still needs independent operator review.
-        proposal = dict(jobs=[dict(store=source.name, source=str(source), output_relative=str(source.relative_to(base)))],
+        proposal = dict(jobs=[dict(group=source.name, source=str(source), output_relative=str(source.relative_to(base)))],
             destination=dict(proposed_mount=str(mount), proposed_root=target.name, filesystem=identity['filesystem'],
                 expected_usb=identity['usb_id'], last_free_bytes=os.statvfs(mount).f_bavail * os.statvfs(mount).f_frsize,
                 last_observed_at=time.time(), reserve_bytes=50_000_000_000, metadata_budget_bytes=10_000_000_000))
@@ -67,7 +67,7 @@ def main():
         print(json.dumps(dict(manifest_sha256=bundle['hashes']['manifest'], summary=bundle['summary'])))
         return 0 if bundle['summary']['preflight_passed'] else 2
     suffix = '' if args.command == 'observe-target' or args.candidate == 'baseline' else '-' + args.candidate
-    module = load('reference_runner', 'october-export-runner' + suffix + '.py')
+    module = load('reference_runner', 'recovery-runner' + suffix + '.py')
     if args.command == 'observe-target':
         print(json.dumps(module.observe_target(args.mount), indent=2)); return 0
     if args.candidate != 'v3' and args.active_directories:

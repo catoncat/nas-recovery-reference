@@ -2,6 +2,8 @@
 
 先读根目录 `AGENTS.md` 的恢复主线，判断当前做到哪一步，再用本页查该阶段入口。目标是恢复并交付急需资料，不是逐项完成所有索引。常规工作沿用已有授权，只有影响当前动作的关键缺项才需要补齐。
 
+首次接手用`FIRST-SESSION.md`；当前最重要是取钥时用`KEY-RECOVERY.md`。两页给出控制电脑/执行机的命令和下一产出。
+
 ## 本事件材料存放在哪里
 
 在**仓库之外的私有事件目录**维护以下材料，位置由操作者确认。不要通过扫描其他目录寻找它们，不把模板的示例值当真实路径。
@@ -14,22 +16,22 @@
 | batch-plan 与精确 bundle | 本批次来源、目标、清单摘要、版本、容量和暂停/接续 | `docs/CODE.md` 的接口说明 |
 | monitor-index | 观察器、被观察任务、状态路径、更新时间与停止条件 | 事件负责人按现场建立，不能照搬其他客户 PID |
 
-私有状态 JSON 只是记录，不会替 Agent 检查现场或批准操作。本仓库目前没有可直接套用的 SSH 接管器、通用内存采集器或秘密管理器适配；必须按本事件已有入口和门禁选择方法。
+私有状态 JSON 只是记录，不会替 Agent 检查现场或批准操作。`nas-readonly.py`复用本事件已有SSH接入做固定读取；`recovery-status.py`观察已知任务；`key-stdin.py`衔接私有候选与runner。它们不自动开通网络/账号；内存采集/提取按KEY-RECOVERY的固定上游适配。
 
 ## 按阶段找入口
 
 | 阶段/需要做什么 | 必读规则与材料 | 可用程序与边界 |
 |---|---|---|
 | 初次进入、换 Agent 或接续 | `AGENTS.md` → 私有事件入口 → 当前阶段文档 | 接续当前进度，确定急需范围与下一产出，复用已有成果 |
-| 隔离与第一轮只读调查 | `RESCUE-GUIDE.md` 1–3 节，门禁 G1 | 没有通用远程调查入口；按已授权的最小命令计划 |
-| 进程身份、冻结、内存/密钥保全 | `RESCUE-GUIDE.md` 2、4 节，G2/G3 | 本包不实现冻结/采集；不可把公开 profile/地址当本案事实 |
+| 隔离与第一轮只读调查 | `RESCUE-GUIDE.md` 1–3 节，门禁 G1 | `nas-readonly.py basic/processes`，见`FIRST-SESSION.md` |
+| 进程身份、冻结、内存/密钥保全 | `RESCUE-GUIDE.md` 2、4 节，G2/G3 | `KEY-RECOVERY.md`：识别、保全、固定上游采集/离线提取，未知样本不套地址 |
 | 离线格式适配与小样本验证 | `CODE.md` 1–2 节，`THIRD-PARTY-NOTICES.md`，G4 | `check-dependencies.py` 与 `selftest.py` 只核对依赖/合成测试，不证明现场可恢复 |
 | 定向清单与目标核对 | `CODE.md` 3 节，G1/G5 | `recover.py observe-target/plan`；前者Linux USB探测，后者会读指定目录元数据并写私有bundle；不是纯本地零访问动作 |
 | 新批次恢复 | `CODE.md` 4 节、`ARCHITECTURE.md`，G4/G5/G6 | `recover.py run` 默认检查，`--execute`才写新输出；key由本事件受控stdin提供 |
-| 观察/暂停/接续 | 私有批次/监控索引、`CODE.md` 5 节，G6 | 以持久化completion为准；不重开观察过期的任务，不自动清除STOP_REQUESTED |
+| 观察/暂停/接续 | 私有批次/监控索引、`CODE.md` 5 节，G6 | `recovery-status.py --state-dir`读取已知状态，见`FIRST-SESSION.md`第3节 |
 | 发布已完成目录 | `RESCUE-GUIDE.md` 7 节、`CODE.md` 6 节，G7 | `publication-eligibility.py` 仅资格观察，不设置共享/账号/HTTPS |
 | 维护、升级、清理和最终结案 | G8，事件负责人具体方案 | 无自动入口；先保全与验收，再单独批准破坏性变更 |
-| 更换程序/更新仓库 | README更新说明、`AGENTS.md` 8节 | 固定提交；独立目录评估；不更新在跑批次代码 |
+| 更换程序/更新仓库 | README更新说明、`AGENTS.md`的固定运行版本说明 | 固定提交；独立目录评估；不更新在跑批次代码 |
 
 ## 现场信息的最小读法
 

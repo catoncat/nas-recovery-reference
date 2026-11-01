@@ -9,7 +9,7 @@ def load(name, filename):
     result = importlib.util.module_from_spec(spec); spec.loader.exec_module(result)
     return result
 
-fixtures = load('export_fixtures', 'test-october-export-runner.py')
+fixtures = load('export_fixtures', 'test-recovery-runner.py')
 gate = load('publication_gate', 'publication-eligibility.py')
 
 class PublicationTests(unittest.TestCase):

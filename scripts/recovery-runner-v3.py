@@ -19,7 +19,7 @@ import threading
 import time
 import uuid
 
-spec=importlib.util.spec_from_file_location('october_export_baseline',Path(__file__).with_name('october-export-runner.py'))
+spec=importlib.util.spec_from_file_location('recovery_export_baseline',Path(__file__).with_name('recovery-runner.py'))
 base=importlib.util.module_from_spec(spec);spec.loader.exec_module(base)
 a=base.a;r=base.r;pre=base.pre
 observe_target=base.observe_target
@@ -28,14 +28,14 @@ observe_target=base.observe_target
 class CompletionRecords(dict):
     """Only populated after durable journal append (or journal replay)."""
     def __init__(self, entries):
-        super().__init__(); self.entries=entries; self.total_bytes = 0; self.stores = {}
+        super().__init__(); self.entries=entries; self.total_bytes = 0; self.groups = {}
 
     def __setitem__(self, key, row):
         if key in self:
             raise r.Refused('Duplicate completion accounting')
         # Source layout is validated by Export.validate before records are loaded.
-        store = self.entries[key]['store']
-        bucket = self.stores.setdefault(store, dict(files=0, bytes=0))
+        group = self.entries[key]['group']
+        bucket = self.groups.setdefault(group, dict(files=0, bytes=0))
         super().__setitem__(key, row)
         self.total_bytes += row['bytes']; bucket['files'] += 1; bucket['bytes'] += row['bytes']
 
@@ -115,7 +115,7 @@ class Export(base.Export):
             runner_version=3,max_active_directories=self.max_active_directories,timing_summary=self.summary_timings(),
             total_files=len(self.manifest['entries']),total_bytes=self.bundle['summary']['expected_output_bytes'],
             completed_files=len(self.records),completed_bytes=self.records.total_bytes,
-            stores={name:dict(value) for name,value in self.records.stores.items()})
+            groups={name:dict(value) for name,value in self.records.groups.items()})
         result.update(extra);base.atomic_status(self.fd,'status.json',result);return result
 
     def append_batch(self,kind,rows):
@@ -233,10 +233,10 @@ class Export(base.Export):
             pending_entries.append(entry)
         if self.free()<new_bytes+base.RESERVE:raise r.Refused('Live free space insufficient after mandatory 50GB+10GB reserve')
         # Preserve first-seen directory order and exact manifest membership.
-        # Group only within each store so explicit store priority remains intact.
+        # Group only within each group so explicit group priority remains intact.
         groups=OrderedDict()
         for entry in pending_entries:
-            groups.setdefault((entry['store'],str(Path(entry['source']).parent)),[]).append(entry)
+            groups.setdefault((entry['group'],str(Path(entry['source']).parent)),[]).append(entry)
         pending_entries=[entry for group in groups.values() for entry in group]
         errors=[];position=0;pending={};last_status=0;paused=False;intent_events={} 
         with ThreadPoolExecutor(max_workers=8) as pool:
@@ -293,22 +293,22 @@ class Export(base.Export):
         if len(self.records)!=len(entries):raise r.Refused('Manifest did not complete')
         for entry in entries:self._record_ok(entry,self.records[entry['id']])
         if self.probe(self.mount)!=self.identity:raise r.Refused('Final target identity differs')
-        stores={}
+        groups={}
         for entry in entries:
-            store=stores.setdefault(entry['store'],dict(files=0,bytes=0,copy_files=0,decrypt_files=0));store['files']+=1;store['bytes']+=entry['expected_output_bytes'];store[entry['operation']+'_files']+=1
-        return self.status('completed-manifest',manifest_sha256=self.fingerprint,stores=stores,readback_verified=True,
+            group=groups.setdefault(entry['group'],dict(files=0,bytes=0,copy_files=0,decrypt_files=0));group['files']+=1;group['bytes']+=entry['expected_output_bytes'];group[entry['operation']+'_files']+=1
+        return self.status('completed-manifest',manifest_sha256=self.fingerprint,groups=groups,readback_verified=True,
             source_files_preserved=True,target_identity=self.identity)
 
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    for arg in ['bundle','target-identity','state-dir','expected-manifest-sha256']:parser.add_argument('--'+arg,required=True)
+    for arg in ['bundle','target-identity','state-dir','expected-manifest-sha256','approved-source-root']:parser.add_argument('--'+arg,required=True)
     parser.add_argument('--active-directories',type=int,default=2,help='Candidate locality limit; 0 disables limit. Not a measured optimum.');parser.add_argument('--execute',action='store_true');parser.add_argument('--marker',required=True);args=parser.parse_args();master=None
     if args.execute:
         line=sys.stdin.buffer.readline(128).strip()
         if len(line)!=102 or not line.startswith(b'KEY48:'):raise r.Refused('KEY48 stdin line required')
         master=bytes.fromhex(line[6:].decode('ascii'));del line
-    result=Export(json.loads(Path(args.bundle).read_text()),json.loads(Path(args.target_identity).read_text()),args.state_dir,args.expected_manifest_sha256,master,bytes.fromhex(args.marker),max_active_directories=args.active_directories).run(args.execute)
+    result=Export(json.loads(Path(args.bundle).read_text()),json.loads(Path(args.target_identity).read_text()),args.state_dir,args.expected_manifest_sha256,master,bytes.fromhex(args.marker),approved_source_root=args.approved_source_root,max_active_directories=args.active_directories).run(args.execute)
     del master;print(json.dumps(result,ensure_ascii=False))
 
 if __name__=='__main__':main()

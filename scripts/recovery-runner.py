@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One-way October delivery candidate. Eight workers, no NAS-source deletion.
+"""One-way file recovery candidate. Eight workers, no NAS-source deletion.
 
 Consumes an approved exact preflight bundle, never scans to expand its scope.
 No rolling transaction, hard links, format, overwrite or source cleanup.
@@ -26,7 +26,7 @@ def module(name,filename):
     spec=importlib.util.spec_from_file_location(name,HERE/filename);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);return m
 
 a=module('export_attested','attested-recovery.py');r=a.rolling
-pre=module('export_preflight','october-export-manifest.py')
+pre=module('export_preflight','recovery-manifest.py')
 RESERVE=60_000_000_000
 
 
@@ -91,6 +91,7 @@ class Export:
 
     def validate(self):
         m=self.manifest;b=self.bundle
+        if m.get('version')!=2:raise r.Refused('Expected explicit-scope manifest version 2; keep older jobs on their original version')
         if (not m.get('preflight_passed') or not b['summary'].get('preflight_passed') or any(x.get('blocking') for x in b['exceptions'])):raise r.Refused('Preflight has unresolved blocking exceptions')
         for key in ['exceptions','summary']:
             if hashlib.sha256(pre.encode(b[key])).hexdigest()!=m[key+'_sha256']:raise r.Refused('Preflight artifact hash differs')
@@ -107,9 +108,8 @@ class Export:
             source,output=r.canonical(entry['source']),r.canonical(entry['output'])
             try:relative=source.relative_to(self.source)
             except ValueError:raise r.Refused('Source outside exact approved base')
-            if self.approved_source_root is not None:
-                if self.approved_source_root not in source.parents:raise r.Refused('Source outside explicitly approved root')
-            elif len(relative.parts)<5 or relative.parts[0]!='ExampleShare' or relative.parts[2]!='2026' or relative.parts[3] not in ('10','10月'):raise r.Refused('Not an approved October source')
+            if self.approved_source_root is None:raise r.Refused('Explicit approved source root required')
+            if self.approved_source_root not in source.parents:raise r.Refused('Source outside explicitly approved root')
             if any(part.startswith(('@','#','.')) for part in relative.parts) or pre.excluded(source.name):raise r.Refused('Protected/excluded source in manifest')
             operation='decrypt' if source.name.endswith('.L0CK3D') else 'copy'
             target_relative=relative.with_name(source.name[:-7]) if operation=='decrypt' else relative
@@ -278,14 +278,14 @@ class Export:
         finally:os.close(self.mount_fd);self.mount_fd=None
 
     def status(self,state,**extra):
-        stores={}
+        groups={}
         for record in self.records.values():
             entry=self.entry_by_id[record['entry_id']]
-            store=stores.setdefault(entry['store'],dict(files=0,bytes=0))
-            store['files']+=1;store['bytes']+=record['bytes']
+            group=groups.setdefault(entry['group'],dict(files=0,bytes=0))
+            group['files']+=1;group['bytes']+=record['bytes']
         result=dict(state=state,pid=self.pid,started=self.started,updated=time.time(),workers=8,
             total_files=len(self.manifest['entries']),total_bytes=self.bundle['summary']['expected_output_bytes'],
-            completed_files=len(self.records),completed_bytes=sum(v['bytes'] for v in self.records.values()),stores=stores)
+            completed_files=len(self.records),completed_bytes=sum(v['bytes'] for v in self.records.values()),groups=groups)
         result.update(extra);atomic_status(self.fd,'status.json',result);return result
 
     def stop_requested(self):return r.exists(self.fd,'STOP_REQUESTED')
@@ -330,24 +330,24 @@ class Export:
         if len(self.records)!=len(entries):raise r.Refused('Manifest did not complete')
         for e in entries:self._record_ok(e,self.records[e['id']])
         if self.probe(self.mount)!=self.identity:raise r.Refused('Final target identity differs')
-        stores={}
+        groups={}
         for e in entries:
-            store=stores.setdefault(e['store'],dict(files=0,bytes=0,copy_files=0,decrypt_files=0))
-            store['files']+=1;store['bytes']+=e['expected_output_bytes'];store[e['operation']+'_files']+=1
+            group=groups.setdefault(e['group'],dict(files=0,bytes=0,copy_files=0,decrypt_files=0))
+            group['files']+=1;group['bytes']+=e['expected_output_bytes'];group[e['operation']+'_files']+=1
         result=dict(state='completed-manifest',manifest_sha256=self.fingerprint,completed_files=len(entries),completed_bytes=sum(v['bytes'] for v in self.records.values()),
-                    stores=stores,readback_verified=True,source_files_preserved=True,target_identity=self.identity,updated=time.time())
+                    groups=groups,readback_verified=True,source_files_preserved=True,target_identity=self.identity,updated=time.time())
         result.update(pid=self.pid,started=self.started,total_files=len(entries),total_bytes=self.bundle['summary']['expected_output_bytes'],workers=8)
         atomic_status(self.fd,'status.json',result);return result
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--bundle',type=Path,required=True);p.add_argument('--target-identity',type=Path,required=True);p.add_argument('--state-dir',required=True);p.add_argument('--expected-manifest-sha256',required=True);p.add_argument('--execute',action='store_true');p.add_argument('--marker',required=True)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--bundle',type=Path,required=True);p.add_argument('--target-identity',type=Path,required=True);p.add_argument('--state-dir',required=True);p.add_argument('--expected-manifest-sha256',required=True);p.add_argument('--approved-source-root',required=True);p.add_argument('--execute',action='store_true');p.add_argument('--marker',required=True)
     args=p.parse_args();bundle=json.loads(args.bundle.read_text());identity=json.loads(args.target_identity.read_text());master=None
     if args.execute:
         line=sys.stdin.buffer.readline(128).strip()
         if len(line)!=102 or not line.startswith(b'KEY48:'):raise r.Refused('KEY48 stdin line required')
         master=bytes.fromhex(line[6:].decode('ascii'));del line
-    result=Export(bundle,identity,args.state_dir,args.expected_manifest_sha256,master,bytes.fromhex(args.marker)).run(args.execute)
+    result=Export(bundle,identity,args.state_dir,args.expected_manifest_sha256,master,bytes.fromhex(args.marker),approved_source_root=args.approved_source_root).run(args.execute)
     del master;print(json.dumps(result,ensure_ascii=False))
 
 if __name__=='__main__':main()

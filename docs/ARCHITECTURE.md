@@ -4,11 +4,14 @@
 
 | 文件 | 职责 |
 |---|---|
+| nas-readonly.py / nas-basic.sh / nas-processes.py | 复用已有SSH读取系统和进程元数据，原始结果仅落私有位置 |
+| recovery-status.py | 观察一个已知批次的状态、完成记录与进程身份，不修改/恢复任务 |
+| key-stdin.py | 从owner-only候选文件向已审查runner直接发送KEY48，不经argv/env |
 | recover.py | 单一明确来源目录的通用 plan/run 入口，显式 marker 与范围 |
-| october-export-manifest.py | 元数据清单、预计输出量、可移植命名/冲突/容量检查 |
-| october-export-runner.py | 精确清单、设备绑定、意图/完成日志、8 worker 和暂停接续基线 |
-| october-export-runner-v2.py | 合批日志、去重复同步、分段计时、既有目录先 open 的离线候选 |
-| october-export-runner-v3.py | 有界提前登记、目录准备 LRU、增量统计、可关闭的目录调度限制候选 |
+| recovery-manifest.py | 元数据清单、预计输出量、可移植命名/冲突/容量检查 |
+| recovery-runner.py | 精确清单、设备绑定、意图/完成日志、8 worker 和暂停接续基线 |
+| recovery-runner-v2.py | 合批日志、去重复同步、分段计时、既有目录先 open 的离线候选 |
+| recovery-runner-v3.py | 有界提前登记、目录准备 LRU、增量统计、可关闭的目录调度限制候选 |
 | attested-recovery.py | 源正文 hash 与本次输出绑定、流式解密、输出完整读回及孤儿证明 |
 | recovery-paths.py | 仅抽取路径/身份、只读和私有目录辅助函数；不含删源 Runner |
 | publication-eligibility.py | 已完成目录与精确清单资格核对；不发布共享 |

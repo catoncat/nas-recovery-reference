@@ -2,6 +2,8 @@
 
 以下命令从固定到已审查提交的仓库根目录执行，先读根目录AGENTS.md与本事件私有当前记录。全部路径示例都需要替换成本客户已核实的路径。不要把本案历史启动封装复制到新现场；plan/dry-run也可能读取现场元数据，不能绕过对应读取门禁。
 
+首次接入和当前任务判断见 [FIRST-SESSION.md](FIRST-SESSION.md)；没有有效key时先走 [KEY-RECOVERY.md](KEY-RECOVERY.md)，不必为保存内存先安装全部密码学依赖。
+
 ## 1. 干净分析机上的依赖
 
 本包没有捆绑密码学核心。先按 [分发说明](../THIRD-PARTY-NOTICES.md) 核对使用范围，自行取得固定上游版本。例如在干净分析机、全新目录中：
@@ -18,7 +20,7 @@ export RECOVERY_CRYPTO_ROOT=/analysis/dependencies/c3rb3r-rescue
 
 `RECOVERY_CRYPTO_ROOT` 是非秘密的上游目录路径。它不能存密钥。校验器核对 DEPENDENCIES.json 中每份固定脚本后才允许导入。网络不可用时，可将另行取得的相同固定版本放在干净分析机上，仍做相同校验。若上游发生变化，不删除摘要检查来强行运行。
 
-测试使用临时合成文件和固定的假 key，不读现场文件、不连接 NAS。文件名含 `october` 是代码历史沿革；其中的示例目录、日期和 marker 都是测试值。对真实目录统一使用下述 `recover.py` 显式范围入口。
+测试使用临时合成文件和固定的假key，不读现场文件、不连接NAS。示例统一使用普通目录；真实目录由操作者显式指定，不按月份、行业或客户业务结构推断范围。
 
 ## 2. 当前支持边界
 
@@ -35,7 +37,7 @@ export RECOVERY_CRYPTO_ROOT=/analysis/dependencies/c3rb3r-rescue
 
 ## 3. 核对目标并生成精确清单
 
-以下以 Linux 已核实的独立 USB 挂载 `/media/recovery-target` 为示例，来源为 `/evidence/source/BranchA/UrgentOrder`。`/analysis/private` 是已经创建、仅操作者可访问的控制目录，位于源树和目标挂载之外。独立性仍需人工核对底层设备，程序不能凭名称证明。
+以下以 Linux 已核实的独立 USB 挂载 `/media/recovery-target` 为示例，来源为 `/evidence/source/data/selected-files`。`/analysis/private` 是已经创建、仅操作者可访问的控制目录，位于源树和目标挂载之外。独立性仍需人工核对底层设备，程序不能凭名称证明。
 
 ```sh
 umask 077
@@ -44,7 +46,7 @@ umask 077
 
 .venv/bin/python -B scripts/recover.py plan \
   --source-base /evidence/source \
-  --approved-source-root /evidence/source/BranchA/UrgentOrder \
+  --approved-source-root /evidence/source/data/selected-files \
   --target-root /media/recovery-target/RecoveredBatchA \
   --target-identity /analysis/private/target-identity.json \
   --bundle-out /analysis/private/bundle.json
@@ -63,7 +65,7 @@ umask 077
   --bundle /analysis/private/bundle.json \
   --target-identity /analysis/private/target-identity.json \
   --state-dir /analysis/private/batch-a-state \
-  --approved-source-root /evidence/source/BranchA/UrgentOrder \
+  --approved-source-root /evidence/source/data/selected-files \
   --expected-manifest-sha256 REVIEWED_MANIFEST_SHA256 \
   --marker REVIEWED_8_HEX_MARKER
 ```
@@ -71,6 +73,8 @@ umask 077
 默认返回 `preflight-only`，不创建状态或业务输出；不表示内容已通过解密验证。实际执行在同一命令末尾加 `--execute`。由本客户的秘密管理器/受控启动器直接向 stdin 发送一行 `KEY48:` 加 96 位十六进制的会话材料。不要通过手工 `echo`、命令行参数或环境变量塞 key，也不要开 shell 跟踪或记录 stdin。包内不提供绑定原现场钥匙串/SSH 的启动器。
 
 默认 `--candidate baseline`；对真实客户先用已验证的小范围适配。v2/v3 只作独立候选比较，使用新的状态目录和目标，不将候选版本直接混入既有任务。本包没有保证不同版本的状态日志跨版本迁移。v3 的目录调度限制默认在通用入口中关闭，可用 `--active-directories 2` 显式评估，尚无最优值。
+
+v0.2.0的清单为`version=2`，文件分组字段为`group/groups`，范围必须显式提供，不按目录名/日期推断。旧版本任务/清单保持其原程序，不将新版本直接用于旧断点。
 
 ## 5. 暂停、接续及错误
 

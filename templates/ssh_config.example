@@ -1,0 +1,26 @@
+# Copy to this incident's PRIVATE directory; replace placeholders.
+# Existing verified credentials/host keys are reused; no passwords in this file.
+Host victim-nas
+    HostName REPLACE_CONFIRMED_NAS_ADDRESS
+    User REPLACE_EXISTING_NAS_ACCOUNT
+    IdentityFile /REPLACE_PRIVATE_DIR/REPLACE_EXISTING_NAS_SSH_KEY
+    # For a reviewed jump host, uncomment after filling its section below:
+    # ProxyJump recovery-jump
+
+Host recovery-jump
+    HostName REPLACE_CONFIRMED_JUMP_ADDRESS
+    User REPLACE_EXISTING_JUMP_ACCOUNT
+    IdentityFile /REPLACE_PRIVATE_DIR/REPLACE_EXISTING_JUMP_SSH_KEY
+
+Host *
+    Port 22
+    IdentitiesOnly yes
+    UserKnownHostsFile /REPLACE_PRIVATE_DIR/known_hosts
+    StrictHostKeyChecking yes
+    BatchMode yes
+    ForwardAgent no
+    ForwardX11 no
+    RequestTTY no
+    ConnectTimeout 15
+    ServerAliveInterval 15
+    ServerAliveCountMax 2

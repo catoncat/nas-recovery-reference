@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Verify a separately obtained pinned upstream checkout, without network access."""
 import hashlib
+import argparse
 import json
 import os
 from pathlib import Path
@@ -24,7 +25,13 @@ def verify():
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--scripts-only', action='store_true', help='Verify pinned files without importing crypto packages; suitable before memory capture')
+    args = parser.parse_args()
     verify()
-    import cryptography
-    import numpy
-    print(json.dumps(dict(status='verified', cryptography=cryptography.__version__, numpy=numpy.__version__)))
+    if args.scripts_only:
+        print(json.dumps(dict(status='pinned-files-verified', crypto_runtime_checked=False)))
+    else:
+        import cryptography
+        import numpy
+        print(json.dumps(dict(status='verified', cryptography=cryptography.__version__, numpy=numpy.__version__)))

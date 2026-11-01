@@ -63,7 +63,7 @@
   ],
   "next_allowed_action": "Determine the current recovery step from operator instructions and existing evidence; advance authorized work and resolve only relevant missing inputs.",
   "recovery_objective": {
-    "urgent_business_scope_reference": null,
+    "priority_source_scope_reference": null,
     "expected_delivery_reference": null,
     "current_work_step": "unknown",
     "next_concrete_deliverable": null
