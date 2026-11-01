@@ -10,6 +10,8 @@
 
 第一次接手直接读 [接入NAS与判断进度](docs/FIRST-SESSION.md)，取钥步骤见 [会话密钥获取](docs/KEY-RECOVERY.md)。
 
+不能到现场时，先看 [Mac → 客户笔记本 → NAS 接线图](docs/REMOTE-CONNECTION.md)，包含Tailscale、UU、Wi-Fi/手机热点和直连网线的分工。
+
 ## 救援主线
 
 1. **接手当前现场。** 看客户急需什么、已经完成什么、什么任务还在运行；复用既有成果和连接，不从零重做。

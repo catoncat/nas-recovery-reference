@@ -16,3 +16,4 @@ logs/
 .env
 .env.*
 *.key
+designs/**/_d_meta.json
