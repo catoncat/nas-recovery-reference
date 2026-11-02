@@ -76,3 +76,6 @@
 恢复、业务验收与环境清理分别结案。重建干净系统、修补入口、轮换凭据、验证备份以及决定原证据保留期，都有各自负责人；解密成功不证明入侵清除或无数据外传。
 
 密钥已经提取、备份并验证后，冻结进程不再决定后续路线。仍保持 NAS 隔离，按重建任务处理系统；不因恢复工具运行成功而宣称环境清洁。
+
+
+v0.4.0 原位空间/排除/扫描与接续参数见 [IN-PLACE.md](IN-PLACE.md)；可选 C 源码构建见 [NATIVE-CIPHER.md](NATIVE-CIPHER.md)；跨卷、收尾、零复制交付见 [RECOVERY-FINISHING.md](RECOVERY-FINISHING.md)；保留数据重建见 [REBUILD.md](REBUILD.md)。

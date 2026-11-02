@@ -1,0 +1,42 @@
+{
+  "version": "0.4.0",
+  "completed_at": "2026-11-02T10:30:22.198046+08:00",
+  "log_sha256": "4e1026ad763a46e716618f4792d358bd53682ecc6ac5c568eee7af7cfa733042",
+  "suites": 8,
+  "counts": [
+    9,
+    7,
+    18,
+    24,
+    6,
+    4,
+    13,
+    8
+  ],
+  "test_invocations": 89,
+  "all_passed": true,
+  "environment": {
+    "os": "macOS-27.0.1-arm64-arm-64bit",
+    "python": "3.12.15"
+  },
+  "cipher": "Python/NumPy recovery fixtures plus locally compiled C differential tests; host-native scalar C on arm64",
+  "ficlone": "copy emulation",
+  "syncfs": "no-op emulation; no host-wide sync",
+  "coverage": [
+    "clone/full-write SHA for all supported partial percentages, empty/short files, CALL_LIMIT and long partial segment",
+    "durable-journal order, collision/drift/magic guards, revert and resume",
+    "Btrfs minimum parser, concurrent reservations, failed sample, hard floor and reservation cleanup",
+    "precise system exclusions with user @/#/hidden/recycle directories preserved for recovery",
+    "completed-journal replay and crash reconcile root totals; root boundary under SQL denial",
+    "highest-year dispatch before full scan and older-year descending queue; THREADS 1–24",
+    "C source native compilation, Python/NumPy differential, empty/64-byte/32-bit/64-bit counter and 5MiB boundaries, missing-library fallback"
+  ],
+  "not_validated": [
+    "Real Btrfs CoW/allocation or power-loss durability",
+    "Deployment of exported v0.4.0 on NAS",
+    "Target-NAS cross-compiled binary",
+    "Cross-volume mover, audit tools or file-sharing services deployment",
+    "DSM reinstall or reconnecting NAS to any network"
+  ],
+  "count_note": "Test invocations include inherited suites; not independent real incident files"
+}

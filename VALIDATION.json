@@ -1,6 +1,6 @@
 {
-  "version": "0.3.0",
-  "validated_at": "2026-11-01T19:27:22.220386+08:00",
+  "version": "0.4.0",
+  "validated_at": "2026-11-02T10:30:22.198046+08:00",
   "scope": "Public export: local synthetic tests only; historical source-tool field evidence separately reported",
   "environment": {
     "os": "macOS-27.0.1-arm64-arm-64bit",
@@ -13,12 +13,13 @@
     "v3": 24,
     "publication-eligibility": 6,
     "generic-adapter": 4,
-    "inplace-recover-and-revert": 13
+    "inplace-recover-and-revert": 13,
+    "adaptive-space-coverage-summary-native": 8
   },
-  "test_invocations": 81,
+  "test_invocations": 89,
   "all_passed": true,
   "count_note": "Inherited baseline/v2/v3 tests repeat; invocation counts are not independent real files.",
-  "local_test_evidence": "docs/evidence/v0.3.0-tests.json",
+  "local_test_evidence": "docs/evidence/v0.4.0-tests.json",
   "inplace": {
     "ficlone": "emulated copy on temporary synthetic files",
     "syncfs": "emulated no-op; no host-wide sync",
@@ -32,8 +33,16 @@
       "explicit exclusions, hidden files, symlinks/hardlinks, unchanged unencrypted original",
       "same-state lock, changed resume configuration refusal, STOP drain/resume and worker/commit overlap",
       "cross-filesystem source refusal before clone",
-      "archive sync failure prevents plaintext installation/ciphertext unlink"
-    ]
+      "archive sync failure prevents plaintext installation/ciphertext unlink",
+      "clone/full-write SHA for all supported partial percentages, empty/short files, CALL_LIMIT and long partial segment",
+      "durable-journal order, collision/drift/magic guards, revert and resume",
+      "Btrfs minimum parser, concurrent reservations, failed sample, hard floor and reservation cleanup",
+      "precise system exclusions with user @/#/hidden/recycle directories preserved for recovery",
+      "completed-journal replay and crash reconcile root totals; root boundary under SQL denial",
+      "highest-year dispatch before full scan and older-year descending queue; THREADS 1–24",
+      "C source native compilation, Python/NumPy differential, empty/64-byte/32-bit/64-bit counter and 5MiB boundaries, missing-library fallback"
+    ],
+    "native": "Locally compiled C source differential vs pinned Python/NumPy; no binary distributed"
   },
   "historical_source_tool_evidence": {
     "date": "2026-11-01",
@@ -98,13 +107,16 @@
     }
   },
   "not_validated": [
-    "Deployment of this generalized v0.3.0 export on any NAS",
+    "Deployment of this generalized v0.4.0 export on any NAS",
     "Real FICLONE/syncfs or hardware power-loss durability by these local tests",
     "All files, sessions, formats or historical originals",
     "Exact recovery after plaintext was edited, or archival footer as a full backup",
     "Per-file xattr/ACL preservation or adversarial concurrent parent replacement",
     "Production file-sharing permissions/HTTPS or automated publication of inplace directories",
-    "Other customer hardware, environment or throughput"
+    "Other customer hardware, environment or throughput",
+    "Target-NAS cross-compiled binary",
+    "Cross-volume mover, audit tools or file-sharing services deployment",
+    "DSM reinstall or reconnecting NAS to any network"
   ],
   "historical_validation": {
     "version": "0.1.0",
@@ -169,5 +181,14 @@
       "new_workflow_live_nas_verified": false,
       "note": "Earlier validation above is historical; it does not certify every new workflow or another customer NAS."
     }
-  }
+  },
+  "previous_export_validation": {
+    "version": "0.3.0",
+    "validated_at": "2026-11-01T19:27:22.220386+08:00",
+    "test_invocations": 81,
+    "local_test_evidence": "docs/evidence/v0.3.0-tests.json"
+  },
+  "sanitization_evidence": "docs/evidence/v0.4.0-sanitization.json",
+  "review_evidence": "docs/evidence/v0.4.0-review.json",
+  "new_historical_source_evidence": "docs/evidence/v0.4.0-field-summary.json"
 }

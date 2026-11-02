@@ -1,0 +1,26 @@
+{
+  "version": "0.4.0",
+  "checked_at": "2026-11-02T10:31:07.971009+08:00",
+  "scope": "Tracked public files plus explicit v0.4.0 additions; excludes ignored local metadata/build/test artifacts",
+  "files_checked": 71,
+  "private_literal_patterns": 149,
+  "private_literal_matching_files": [],
+  "general_indicator_matching_files": [
+    "scripts/recovery-manifest.py"
+  ],
+  "internal_order_or_receipt_files": [],
+  "internal_order_or_receipt_history_files": [],
+  "reviewed_false_positives": [
+    {
+      "file": "scripts/recovery-manifest.py",
+      "reason": "Existing synthetic X drive path illustration, not an incident path"
+    }
+  ],
+  "unresolved_findings": 0,
+  "method": "Case-specific exact byte literals derived in memory from private operational records; broad credential and absolute-user-path patterns. No pattern list or matched body exported.",
+  "commands": [
+    "in-memory case-literal and account-name scan",
+    "git ls-files",
+    "git log --format= --name-only HEAD"
+  ]
+}

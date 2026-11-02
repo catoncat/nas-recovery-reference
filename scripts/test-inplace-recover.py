@@ -76,10 +76,12 @@ class InplaceTests(unittest.TestCase):
             except OSError: pass
 
     def recovery(self, state='state', **kwargs):
-        options = {'suffix': SUFFIX}
+        options = {'suffix': SUFFIX, 'small_bytes': 0}
         options.update(kwargs)
         recovery = m.Recovery(self.root / state, [str(self.inputs)], self.master, 0,
                               MARKER, **options)
+        recovery.space_budget.sampler=lambda:dict(conservative_bytes=10**15)
+        recovery.write_strategy=lambda *args:('clone','synthetic-forced-clone')
         self.controllers.append(recovery)
         recovery.status['root'] = str(self.inputs)
         return recovery
@@ -245,7 +247,7 @@ class InplaceTests(unittest.TestCase):
         self.assertEqual(recovery.status['files'], 8)
 
     def test_explicit_exclusions_hidden_files_and_links(self):
-        recovery = self.recovery(exclude_prefixes=('@',))
+        recovery = self.recovery(exclude_names=m.SYSTEM_DIRS | {'@skip'})
         hidden = self.cipher('.hidden/a.bin', b'hello')[0]
         excluded = self.cipher('@skip/a.bin', b'keep')[0]
         source = self.cipher('normal.bin', b'normal')[0]

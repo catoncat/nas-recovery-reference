@@ -91,3 +91,6 @@ v0.2.0的清单为`version=2`，文件分组字段为`group/groups`，范围必�
 `publication-eligibility.py` 是 API 库，调用 `verify_unit(runner, unit)`。`unit` 包含 `id`、相对目标的 `relative_directory` 和完整 `entry_ids`；使用持有可信完成记录的 runner。参考 `test-publication-eligibility.py` 的合成示例。
 
 通过返回 `eligible_at_observation=true, published=false`，表示当时目录与清单、记录相符。之后仍需保持独占可信管理，完成业务抽样、只读服务配置、按客户权限限制和发布后外部读回。该库不提供服务器、网页或权限配置。
+
+
+v0.4.0 原位空间/排除/扫描与接续参数见 [IN-PLACE.md](IN-PLACE.md)；可选 C 源码构建见 [NATIVE-CIPHER.md](NATIVE-CIPHER.md)；跨卷、收尾、零复制交付见 [RECOVERY-FINISHING.md](RECOVERY-FINISHING.md)；保留数据重建见 [REBUILD.md](REBUILD.md)。

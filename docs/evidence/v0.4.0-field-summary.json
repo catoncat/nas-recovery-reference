@@ -1,0 +1,91 @@
+{
+  "version": "0.4.0",
+  "compiled_at": "2026-11-02T10:28:58.496496+08:00",
+  "scope": "Historical source-tool records, read locally; no live NAS sampling or exported-code deployment",
+  "sources": {
+    "cipher-performance": {
+      "sha256": "316a532af32e886f6417a5d08c755100960c436c2b1fb53105e63e0ddec202c5",
+      "kind": "private historical record; no private paths exported"
+    },
+    "management-latency": {
+      "sha256": "09ea2f6193e959025ca9f7090f4b62951c537960ffcc0afbdf636c04570ee3f2",
+      "kind": "private historical record; no private paths exported"
+    },
+    "space-policy": {
+      "sha256": "84bb8ba1c008f909735dded4e4b1ad77f97537e6d99f1ec5dd0fddf7162d3627",
+      "kind": "private historical record; no private paths exported"
+    },
+    "root-boundary": {
+      "sha256": "e4f48177b5293ca0835add5a4dccbc0ed2cb1698eaf4493d9e75aa7205db2ff5",
+      "kind": "private historical record; no private paths exported"
+    },
+    "raid-stall": {
+      "sha256": "1dfe601d9c25c82b63f4b0d794b5f5f5c9c35f05ab069cacf7f3de3ec6118f8a",
+      "kind": "private historical record; no private paths exported"
+    },
+    "summary-directive": {
+      "sha256": "dc7d3761530d293b292381ea2c6f631d8cb80be85e2f5020a62b858c1151400e",
+      "kind": "private historical record; no private paths exported"
+    }
+  },
+  "cipher": {
+    "source": "cipher-performance",
+    "date": "2026-11-01",
+    "timezone": "+08:00",
+    "same_workers_decrypt_mean_ms": {
+      "before": 236.12,
+      "after": 2.41
+    },
+    "baseline_window": "20:08:16–20:13:18",
+    "native_window": "20:29:10–20:34:12",
+    "native_combined_logical_MBps": 830.02,
+    "note": "Different sequential workloads and call sizes; not a same-file controlled speedup. 830.02 is 455.42+374.60 rounded window rates, not physical IO."
+  },
+  "reported_peak": {
+    "source": "summary-directive",
+    "reported_at": "2026-11-02T10:20:00+08:00",
+    "approximate_combined_logical_GBps": 1,
+    "independent_sampling_window_available": false,
+    "note": "Historical summary claim only; not recalculated or a sustained throughput guarantee"
+  },
+  "management": {
+    "source": "management-latency",
+    "before_at": "2026-11-01T21:28:41.135+08:00",
+    "after_at": "2026-11-01T21:30:05.521+08:00",
+    "before_seconds": 1.066,
+    "after_seconds": 0.195,
+    "historical_reported_seconds": 39,
+    "note": "39 seconds preceded connection repair; cannot attribute entire change to nice/ionice"
+  },
+  "space": {
+    "source": "space-policy",
+    "window": "2026-11-01T23:28:22+08:00/2026-11-01T23:33:22+08:00",
+    "estimated_clone_residue_GB": 5.838,
+    "minimum_headroom_decrease_GB": 5.825,
+    "note": "Concurrent workload, not universal ratio; logical source deletion and net free space differ"
+  },
+  "root_boundary": {
+    "source": "root-boundary",
+    "old_metric_at": "2026-11-02T01:01:00.708+08:00",
+    "old_summary_seconds": 1382.864,
+    "new_summary_seconds": [
+      0.213,
+      0.189,
+      0.346,
+      0.498
+    ],
+    "new_boundaries_observed_by": "2026-11-02T01:12:05.837+08:00",
+    "note": "Only observed roots on one filesystem; whole-root work can take longer"
+  },
+  "raid": {
+    "source": "raid-stall",
+    "observed_by": "2026-11-02T09:05:06+08:00",
+    "member_busy_percent_range": [
+      90,
+      95
+    ],
+    "severe_clone_latency_seconds_approx": 5,
+    "final_mean_clone_ms": 151.8,
+    "note": "No controlled attribution of the severe stall solely to concurrent unlink"
+  }
+}

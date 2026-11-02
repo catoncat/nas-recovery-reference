@@ -17,3 +17,8 @@ logs/
 .env.*
 *.key
 designs/**/_d_meta.json
+
+.DS_Store
+scripts/libchacha8.so
+scripts/libchacha8.dylib
+.inplace-test-*/

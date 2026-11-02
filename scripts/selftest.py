@@ -10,7 +10,7 @@ HERE = Path(__file__).resolve().parent
 TESTS = ['test-recovery-manifest.py', 'test-recovery-runner.py',
          'test-recovery-runner-v2.py', 'test-recovery-runner-v3.py',
          'test-publication-eligibility.py', 'test-reference-adapter.py',
-         'test-inplace-recover.py']
+         'test-inplace-recover.py', 'test-inplace-improvements.py']
 
 if __name__ == '__main__':
     environment = dict(os.environ, PYTHONDONTWRITEBYTECODE='1')

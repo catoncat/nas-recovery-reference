@@ -39,3 +39,6 @@
 读取当前任务关联的最后一条完整状态、完成日志摘要、指定身份和具体错误；保留采集时间。不要为写报告整目录读取证据，不把 cmdline/environ、内存页或原始文件正文自动送进模型上下文。
 
 不把“状态新鲜”写成“现场已验证”：读本地记录、通过SSH读取、实际文件读回和业务验收分别标明。发现unknown/冲突，按门禁停止依赖该结论的动作，继续能够安全完成的本地工作。
+
+
+v0.4.0 原位空间/排除/扫描与接续参数见 [IN-PLACE.md](IN-PLACE.md)；可选 C 源码构建见 [NATIVE-CIPHER.md](NATIVE-CIPHER.md)；跨卷、收尾、零复制交付见 [RECOVERY-FINISHING.md](RECOVERY-FINISHING.md)；保留数据重建见 [REBUILD.md](REBUILD.md)。
